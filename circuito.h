@@ -26,7 +26,7 @@ protected:
   bool_3S saida;
 public:
   Porta(unsigned NI=2);
-  Porta(const Porta &);
+  Porta(const Porta &P);
   inline virtual ~Porta() {}
 
   virtual ptr_Porta clone() const = 0;
