@@ -150,12 +150,12 @@ public:
   // Entrada dos dados de um circuito via teclado
   void digitar();
   // Entrada dos dados de um circuito via arquivo
-  void ler(const char *);
+  void ler(const char *nome);
   // Saida dos dados de um circuito (em tela ou arquivo, mesma funcao)
   ostream &imprimir(ostream &O=cout) const;
   // Salvar circuito em arquivo
   // Abre a stream e depois chama o metodo imprimir
-  void salvar(const char *) const;
+  void salvar(const char *nome) const;
   // Solicita ao usuario que digite os valores das entradas do circuito, que sao
   // as variaveis inputs[i], i de 0 a Nin-1
   void digitarEntradas();
