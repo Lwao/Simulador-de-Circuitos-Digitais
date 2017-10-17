@@ -27,7 +27,7 @@ Porta::Porta(const Porta &P)
 }
 void Porta::setSaida(bool_3S s)
 {
-    if ((s>=-1) && (s<=1)) saida=s;
+    if ((s>=UNDEF_3S) && (s<=TRUE_3S)) saida=s;
     else 
     {
         cerr << "Sinal digital inválido!" << endl;
@@ -44,10 +44,10 @@ int Porta::getId_in(unsigned int i) const
 }
 void Porta::setId_in(unsigned int i, int N)
 {
-    if ((i>0) && (i<NUM_MAX_INPUTS_PORTA)) id_in[i]=N;
+    if ((i>0) && (i<Nin)) id_in[i]=N;
     else 
     {
-        cerr << "Número de entradas inválida!" << endl;
+        cerr << "Número de entrada inválida!" << endl;
     }
 }
 void Porta::digitar()
@@ -58,22 +58,11 @@ void Porta::digitar()
     cin >> Nin;
     } while ((Nin<0) || (Nin>NUM_MAX_INPUTS_PORTA));
     
-    
-    
-    /*
-    do
+    for (unsigned i=0; i<Nin; i++)
     {
-    cout << "Digite a saída da porta: ";
-    cin >> saida;
-    } while ((saida<-1) || (saida>1));
-    
-    cout << "Digite o sinal de cada porta: ";
-    for (unsigned i=0; i<Nin; i++) 
-    {
-        cout << "Origem do sinal da entrada " << i+1 << " : ";
+        cout << "Digite a origem do sinal lógico da " << i+1 << "ª entrada da porta: ";
         cin >> id_in[i];
     }
-    */
 }
 bool Porta::ler(istream& I)
 {
@@ -101,7 +90,7 @@ ostream &Porta::imprimir(ostream &O) const
 
 void Porta_NOT::digitar()
 {
-    
+    Porta::digitar();
 }
 bool Porta_NOT::ler(istream& I)
 {
@@ -282,6 +271,13 @@ void Circuito::copiar(const Circuito& C)
 void Circuito::digitar()
 {
     int op;
+    Porta_NOT tNOT;
+    Porta_AND tAND;
+    Porta_NAND tNAND;
+    Porta_OR tOR;
+    Porta_NOR tNOR;
+    Porta_XOR tXOR;
+    Porta_NXOR tNXOR;
     
     do 
     {
@@ -301,7 +297,6 @@ void Circuito::digitar()
     
     alocar(Nin, Nout, Nportas);
     
-    digitarEntradas();
     
     //Definição das portas
     
@@ -323,31 +318,43 @@ void Circuito::digitar()
         switch (op)
         {
             case 0:
-                portas[i]->digitar();
+                tNOT.digitar();
+                portas[i] = (&tNOT)->clone();
                 break;
             case 1:
-                Porta_AND::digitar();
+                tAND.digitar();
+                portas[i] = (&tAND)->clone();
                 break;
             case 2:
-                Porta_NAND::digitar();
+                tNAND.digitar();
+                portas[i] = (&tNAND)->clone();
                 break;
             case 3:
-                Porta_OR::digitar();
+                tOR.digitar();
+                portas[i] = (&tOR)->clone();
                 break;
             case 4:
-                Porta_NOR::digitar();
+                tNOR.digitar();
+                portas[i] = (&tNOR)->clone();
                 break;
             case 5:
-                Porta_XOR::digitar();
+                tXOR.digitar();
+                portas[i] = (&tXOR)->clone();
                 break;
             case 6:
-                Porta_NXOR::digitar();
+                tNXOR.digitar();
+                portas[i] = (&tNXOR)->clone();
                 break;
             default:
                 break;
         }
     }
     
+    for (unsigned i=0; i<Nout; i++)
+    {
+        cout << "Digite a origem do sinal lógico da " << i+1 << "ª saída do circuito: ";
+        cin >> id_out[i];
+    }
 
 }
 void Circuito::ler(const char*nome)
@@ -356,10 +363,18 @@ void Circuito::ler(const char*nome)
     if (arquivo.is_open())
     {
         string prov;
+        Porta_NOT tNOT;
+        Porta_AND tAND;
+        Porta_NAND tNAND;
+        Porta_OR tOR;
+        Porta_NOR tNOR;
+        Porta_XOR tXOR;
+        Porta_NXOR tNXOR;
+
 
         //Lendo cabeçalho geral
         arquivo >> prov;
-        if (prov != "CIRCUITOS:")
+        if (prov != "CIRCUITO:")
         {
             cerr << "Arquivo com cabeçalho principal inválido\n";
         }
@@ -382,9 +397,44 @@ void Circuito::ler(const char*nome)
         }
         else
         {
+            // Antes de ler os dados de um arquivo, zera o conteudo atual do circuito
+            limpar();
+
             for (unsigned i=0; i<Nportas; i++)
             {
+                // Vai para o inicio de uma linha (ignora ENTER de linha anterior)
+                arquivo.ignore(numeric_limits<streamsize>::max(), '\n');
                 arquivo >> prov;
+
+                switch(prov)
+                {
+
+                case 'NT':
+
+                    break;
+                case 'AN':
+
+                    break;
+                }
+                case 'NA':
+
+                    break;
+                case 'OR':
+
+                    break;
+                case 'NO':
+
+                    break;
+                case 'XO':
+
+                    break;
+                case 'NX':
+
+                    break;
+                default:
+                // Primeiro caractere da linha nao era nenhuma das opçoes validas
+                cerr << "Arquivo " << arquivo << " parcialmente invalido para leitura\n";
+                return;
                 portas[i]->ler(arquivo);
             }
         }
@@ -435,7 +485,7 @@ void Circuito::salvar(const char*nome) const
     //arquivo.is_open();
     if (arquivo.is_open())
     {
-        arquivo << imprimir(cout);
+        for (unsigned i=0; i<Nportas; i++) arquivo << *portas[i];
         arquivo.close();
     }
     else
