@@ -58,6 +58,9 @@ void Porta::digitar()
     cin >> Nin;
     } while ((Nin<0) || (Nin>NUM_MAX_INPUTS_PORTA));
     
+    
+    
+    /*
     do
     {
     cout << "Digite a saída da porta: ";
@@ -70,6 +73,7 @@ void Porta::digitar()
         cout << "Origem do sinal da entrada " << i+1 << " : ";
         cin >> id_in[i];
     }
+    */
 }
 bool Porta::ler(istream& I)
 {
@@ -97,6 +101,7 @@ ostream &Porta::imprimir(ostream &O) const
 
 void Porta_NOT::digitar()
 {
+    
 }
 bool Porta_NOT::ler(istream& I)
 {
@@ -115,7 +120,12 @@ bool_3S Porta_NOT::simular(const bool_3S in[])
 
 //PORTA_AND
 
-
+void Porta_AND::digitar()
+{
+}
+bool Porta_AND::ler(istream& I)
+{
+}
 ostream &Porta_AND::imprimir(ostream& O) const
 {
     O << "AN ";
@@ -129,7 +139,12 @@ bool_3S Porta_AND::simular(const bool_3S in[])
 
 //PORTA_NAND
 
-
+void Porta_NAND::digitar()
+{
+}
+bool Porta_NAND::ler(istream& I)
+{
+}
 ostream &Porta_NAND::imprimir(ostream& O) const
 {
     O << "NA ";
@@ -143,7 +158,12 @@ bool_3S Porta_NAND::simular(const bool_3S in[])
 
 //PORTA_OR
 
-
+void Porta_OR::digitar()
+{
+}
+bool Porta_OR::ler(istream& I)
+{
+}
 ostream &Porta_OR::imprimir(ostream& O) const
 {
     O << "OR ";
@@ -157,7 +177,12 @@ bool_3S Porta_OR::simular(const bool_3S in[])
 
 //PORTA_NOR
 
-
+void Porta_NOR::digitar()
+{
+}
+bool Porta_NOR::ler(istream& I)
+{
+}
 ostream &Porta_NOR::imprimir(ostream& O) const
 {
     O << "NO ";
@@ -172,6 +197,12 @@ bool_3S Porta_NOR::simular(const bool_3S in[])
 //PORTA_XOR
 
 
+void Porta_XOR::digitar()
+{
+}
+bool Porta_XOR::ler(istream& I)
+{
+}
 ostream &Porta_XOR::imprimir(ostream& O) const
 {
     O << "XO ";
@@ -185,7 +216,12 @@ bool_3S Porta_XOR::simular(const bool_3S in[])
 
 //PORTA_NXOR
 
-
+void Porta_NXOR::digitar()
+{
+}
+bool Porta_NXOR::ler(istream& I)
+{
+}
 ostream &Porta_NXOR::imprimir(ostream& O) const
 {
     O << "NX ";
@@ -271,7 +307,7 @@ void Circuito::digitar()
     
     for (unsigned i=0; i<Nportas; i++)
     {
-        cout << "\nESCOLHA A PORTA:\n";
+        cout << "\nINSERIR UMA PORTA:\n";
         do {
             cout << "0 - Porta NOT\n";
             cout << "1 - Porta AND\n";
@@ -287,7 +323,7 @@ void Circuito::digitar()
         switch (op)
         {
             case 0:
-                Porta_NOT::digitar();
+                portas[i]->digitar();
                 break;
             case 1:
                 Porta_AND::digitar();
@@ -349,34 +385,7 @@ void Circuito::ler(const char*nome)
             for (unsigned i=0; i<Nportas; i++)
             {
                 arquivo >> prov;
-                
-                switch (prov) //esboço pévio da situação
-                {
-                    case 'NT':
-                        portas[i]=&(Porta_NOT::ler(arquivo));
-                        break;
-                    case 'AN':
-                        portas[i]=&(Porta_AND::ler(arquivo));
-                        break;
-                    case 'NA':
-                        portas[i]=&(Porta_NAND::ler(arquivo));
-                        break;
-                    case 'OR':
-                        portas[i]=&(Porta_OR::ler(arquivo));
-                        break;
-                    case 'NO':
-                        portas[i]=&(Porta_NOR::ler(arquivo));
-                        break;
-                    case 'XO':
-                        portas[i]=&(Porta_XOR::ler(arquivo));
-                        break;
-                    case 'NX':
-                        portas[i]=&(Porta_NXOR::ler(arquivo));
-                        break;
-                    default:
-                        cerr << "Tipo de porta inválido!\n";
-                        break;
-                }
+                portas[i]->ler(arquivo);
             }
         }
         
@@ -448,15 +457,71 @@ void Circuito::digitarEntradas()
 }
 void Circuito::imprimirEntradas() const
 {
+    cout << "Valores das entradas do circuito: " << endl;
+    for (unsigned i=0; i<Nin; i++) cout << "Entrada " << i+1 << " : " << inputs[i] << endl; 
 }
 void Circuito::imprimirSaidas() const
 {
+    cout << "Valores das saídas do circuito: " << endl;
+    for (unsigned i=0; i<Nout; i++) cout << "Saída " << i+1 << " : " << id_out[i] << endl; 
 }
 void Circuito::simular()
 {
+    bool tudo_def, alguma_def, in_portas;
+    
+    for (unsigned i=0; i<Nportas; i++) portas[i]->saida = UNDEF;
+    
+    do 
+    {
+        tudo_def = TRUE_3S;
+        alguma_def = FALSE_3S;
+        for (unsigned i=0; i<Nportas; i++)
+        {
+            if (portas[i]->saida == UNDEF_3S)
+            {
+                in_portas = /*entradas booleanas da porta i;*/ portas[i].simular(in_porta)-;
+                if (portas[i].saida == UNDEF_3S)
+                {
+                    tudo_def = FALSE_3S;
+                }
+                else
+                {
+                    alguma_def = true
+                }
+            }
+        }
+    } while (!tudo_def && alguma_def)
+    
 }
 void Circuito::gerarTabela()
-{
+{    
+    for (unsigned i=0; i<Nin; i++) *(inputs[i]) = FALSE_3S;
+    
+    do
+    {
+        simular_circuito(inputs);
+        
+        //Qual input incrementar?
+        i = Nin-1;
+        while ((i>=0) && (inputs[i]==UNDEF_3S))
+        {
+            *(inputs[i])=FALSE_3S;
+            i--;
+        }
+        
+        //Incrementa a input escolhida
+        if (i>=0)
+        {
+            if (*(inputs[i])==FALSE_3S)
+            {
+                *(inputs[i])=TRUE_3S;
+            }
+            else //é true
+            {
+                *(inputs[i])=UNDEF_3S
+            }
+        }
+    } while (i>=0);
 }
 
 
