@@ -65,6 +65,8 @@ public:
   inline ~Porta_AND() {}
   ptr_Porta clone() const {return new Porta_AND(*this);}
 
+  void digitar();
+  bool ler(istream &I);
   ostream &imprimir(ostream &O) const;
 
   bool_3S simular(const bool_3S in[]);
@@ -76,6 +78,8 @@ public:
   inline ~Porta_NAND() {}
   ptr_Porta clone() const {return new Porta_NAND(*this);}
 
+  void digitar();
+  bool ler(istream &I);
   ostream &imprimir(ostream &O) const;
 
   bool_3S simular(const bool_3S in[]);
@@ -87,6 +91,8 @@ public:
   inline ~Porta_OR() {}
   ptr_Porta clone() const {return new Porta_OR(*this);}
 
+  void digitar();
+  bool ler(istream &I);
   ostream &imprimir(ostream &O) const;
 
   bool_3S simular(const bool_3S in[]);
@@ -98,6 +104,8 @@ public:
   inline ~Porta_NOR() {}
   ptr_Porta clone() const {return new Porta_NOR(*this);}
 
+  void digitar();
+  bool ler(istream &I);
   ostream &imprimir(ostream &O) const;
 
   bool_3S simular(const bool_3S in[]);
@@ -109,6 +117,8 @@ public:
   inline ~Porta_XOR() {}
   ptr_Porta clone() const {return new Porta_XOR(*this);}
 
+  void digitar();
+  bool ler(istream &I);
   ostream &imprimir(ostream &O) const;
 
   bool_3S simular(const bool_3S in[]);
@@ -120,6 +130,8 @@ public:
   inline ~Porta_NXOR() {}
   ptr_Porta clone() const {return new Porta_NXOR(*this);}
 
+  void digitar();
+  bool ler(istream &I);
   ostream &imprimir(ostream &O) const;
 
   bool_3S simular(const bool_3S in[]);
