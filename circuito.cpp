@@ -104,6 +104,10 @@ ostream &Porta_NOT::imprimir(ostream& O) const
 }
 bool_3S Porta_NOT::simular(const bool_3S in[])
 {
+    bool_3S prov;
+	if (in[0]!=UNDEF_3S) prov = (!in[0]);
+	else prov = in[0]
+	return prov;
 }
 
 
@@ -123,6 +127,10 @@ ostream &Porta_AND::imprimir(ostream& O) const
 }
 bool_3S Porta_AND::simular(const bool_3S in[])
 {
+    bool_3S prov;
+	prov = in[0];
+	for (unsigned i=1; i<Nin; i++) prov = (prov && in[i]);
+	return prov;
 }
 
 
@@ -142,6 +150,10 @@ ostream &Porta_NAND::imprimir(ostream& O) const
 }
 bool_3S Porta_NAND::simular(const bool_3S in[])
 {
+    bool_3S prov;
+	prov = in[0];
+	for (unsigned i=1; i<Nin; i++) prov = (prov && in[i]);
+	return (!prov);
 }
 
 
@@ -161,6 +173,13 @@ ostream &Porta_OR::imprimir(ostream& O) const
 }
 bool_3S Porta_OR::simular(const bool_3S in[])
 {
+    bool_3S prov;
+	prov = in[0];
+	for (unsigned i=1; i<Nin; i++)
+	{
+		prov = (prov || in[i]);
+	}
+	return prov;
 }
 
 
@@ -180,6 +199,13 @@ ostream &Porta_NOR::imprimir(ostream& O) const
 }
 bool_3S Porta_NOR::simular(const bool_3S in[])
 {
+    bool_3S prov;
+	prov = in[0];
+	for (unsigned i=1; i<Nin; i++)
+	{
+		prov = (prov || in[i]);
+	}
+	return (!prov);
 }
 
 
@@ -200,6 +226,13 @@ ostream &Porta_XOR::imprimir(ostream& O) const
 }
 bool_3S Porta_XOR::simular(const bool_3S in[])
 {
+    bool_3S prov;
+	prov = in[0];
+	for (unsigned i=1; i<Nin; i++)
+	{
+		prov = (prov!=in[i]);
+	}
+	return prov;
 }
 
 
@@ -219,6 +252,13 @@ ostream &Porta_NXOR::imprimir(ostream& O) const
 }
 bool_3S Porta_NXOR::simular(const bool_3S in[])
 {
+    bool_3S prov;
+	prov = in[0];
+	for (unsigned i=1; i<Nin; i++)
+	{
+		prov = (prov==in[i]);
+	}
+	return prov;
 }
 
 
@@ -519,7 +559,7 @@ void Circuito::simular()
 {
     bool tudo_def, alguma_def, in_portas;
     
-    for (unsigned i=0; i<Nportas; i++) portas[i]->saida = UNDEF;
+    for (unsigned i=0; i<Nportas; i++) *portas[i]->saida = UNDEF_3S;
     
     do 
     {
@@ -527,16 +567,17 @@ void Circuito::simular()
         alguma_def = FALSE_3S;
         for (unsigned i=0; i<Nportas; i++)
         {
-            if (portas[i]->saida == UNDEF_3S)
+            if (*portas[i]->saida == UNDEF_3S)
             {
-                in_portas = /*entradas booleanas da porta i;*/ portas[i].simular(in_porta)-;
+                in_portas = /*entradas booleanas da porta i;*/ 
+				portas[i]->simular(in_porta);
                 if (portas[i].saida == UNDEF_3S)
                 {
                     tudo_def = FALSE_3S;
                 }
                 else
                 {
-                    alguma_def = true
+                    alguma_def = TRUE_3S;
                 }
             }
         }
@@ -549,7 +590,7 @@ void Circuito::gerarTabela()
     
     do
     {
-        simular_circuito(inputs);
+        Circuito::simular(inputs);
         
         //Qual input incrementar?
         i = Nin-1;
