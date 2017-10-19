@@ -19,122 +19,123 @@ enum bool_3S {
 class Porta;
 typedef Porta *ptr_Porta;
 
-class Porta {
+class Porta { //Classe Porta
 protected:
-  unsigned Nin;
-  int id_in[NUM_MAX_INPUTS_PORTA];
-  bool_3S saida;
+  unsigned Nin; //Variável com o número de entradas;
+  int id_in[NUM_MAX_INPUTS_PORTA]; //Indica que a quantidade máxima de entradas é 4;
+  bool_3S saida; //Atribui a variável SAÍDA, o tipo bool_3S(booleano de 3 estados);
 public:
-  Porta(unsigned NI=2);
-  Porta(const Porta &P);
+  Porta(unsigned NI=2); //Construtor, inserindo o número de portas, vide o código em circuito.cpp;
+  Porta(const Porta &P); //Construtor por cópia, vide o código em circuito.cpp;
   inline virtual ~Porta() {}
 
   virtual ptr_Porta clone() const = 0;
-  inline unsigned getNumInputs() const {return Nin;}
+  inline unsigned getNumInputs() const {return Nin;}//
   inline bool_3S getSaida() const {return saida;}
-  void setSaida(bool_3S s);
-  int getId_in(unsigned i) const;
-  void setId_in(unsigned i, int N);
+  void setSaida(bool_3S s);//Verificação da validade do sinal de saída;
+  int getId_in(unsigned i) const; //Verificação do número de entradas;
+  void setId_in(unsigned i, int N); //...
 
-  virtual void digitar();
-  virtual bool ler(istream &I);
-  virtual ostream &imprimir(ostream &O) const;
+  virtual void digitar();//Método Digitar de Porta, polimórfico;
+  virtual bool ler(istream &I);//Método Ler de Porta, polimórfico;
+  virtual ostream &imprimir(ostream &O) const; //Método imprimir de Porta, polimórfico;
 
-  virtual bool_3S simular(const bool_3S in[]) = 0;
+  virtual bool_3S simular(const bool_3S in[]) = 0;//Simular de Porta, polimórfico;
 };
 
 // Operador << com comportamento polimorfico
 inline ostream &operator<<(ostream &O, const Porta &X) {return (&X)->imprimir(O);};
 
-class Porta_NOT: public Porta {
+class Porta_NOT: public Porta {//Definindo Porta_NOT, herdando a Classe Porta;
 public:
-  inline Porta_NOT(): Porta(1) {}
+  inline Porta_NOT(): Porta(1) {}//Cria uma porta com uma única entrada;
   inline ~Porta_NOT() {}
   ptr_Porta clone() const {return new Porta_NOT(*this);}
 
-  void digitar();
-  bool ler(istream &I);
-  ostream &imprimir(ostream &O) const;
+  void digitar();//Método digitar, homônimo ao método digitar de Porta;
+  bool ler(istream &I);//Método ler, homônimo ao método ler de Porta;
+  ostream &imprimir(ostream &O) const;//Método imprimir, homônimo ao método imprimir de Porta;
 
-  bool_3S simular(const bool_3S in[]);
+  bool_3S simular(const bool_3S in[]);//Método simular, homônimo ao método imprimir de Porta;
 };
 
-class Porta_AND: public Porta {
+class Porta_AND: public Porta {//Definindo Porta_AND, herdando a Classe Porta;
 public:
-  inline Porta_AND(): Porta() {}
+  inline Porta_AND(): Porta() {}//Construtor
   inline ~Porta_AND() {}
   ptr_Porta clone() const {return new Porta_AND(*this);}
 
-  void digitar();
-  bool ler(istream &I);
-  ostream &imprimir(ostream &O) const;
+  void digitar();//Método digitar, homônimo ao método digitar de Porta;
+  bool ler(istream &I);//Método dler, homônimo ao método ler de Porta;
+  ostream &imprimir(ostream &O) const;//Método imprimir, homônimo ao método imprimir de Porta;
 
-  bool_3S simular(const bool_3S in[]);
+  bool_3S simular(const bool_3S in[]);//Método simular, homônimo ao método digitar de Porta;
 };
 
-class Porta_NAND: public Porta {
+class Porta_NAND: public Porta {//Definindo Porta_NAND, herdando a Classe Porta;
 public:
   inline Porta_NAND(): Porta() {}
   inline ~Porta_NAND() {}
   ptr_Porta clone() const {return new Porta_NAND(*this);}
 
-  void digitar();
-  bool ler(istream &I);
-  ostream &imprimir(ostream &O) const;
+  void digitar();//Método digitar, homônimo ao método digitar de Porta;
+  bool ler(istream &I);//Método dler, homônimo ao método ler de Porta;
+  ostream &imprimir(ostream &O) const;//Método imprimir, homônimo ao método imprimir de Porta;
 
-  bool_3S simular(const bool_3S in[]);
+
+  bool_3S simular(const bool_3S in[]);//Método simular, homônimo ao método digitar de Porta;
 };
 
-class Porta_OR: public Porta {
+class Porta_OR: public Porta {//Definindo Porta_OR, herdando a Classe Porta;
 public:
   inline Porta_OR(): Porta() {}
   inline ~Porta_OR() {}
   ptr_Porta clone() const {return new Porta_OR(*this);}
 
-  void digitar();
-  bool ler(istream &I);
-  ostream &imprimir(ostream &O) const;
+  void digitar();//Método digitar, homônimo ao método digitar de Porta;
+  bool ler(istream &I);//Método dler, homônimo ao método ler de Porta;
+  ostream &imprimir(ostream &O) const;//Método imprimir, homônimo ao método imprimir de Porta;
 
-  bool_3S simular(const bool_3S in[]);
+  bool_3S simular(const bool_3S in[]);//Método simular, homônimo ao método digitar de Porta;
 };
 
-class Porta_NOR: public Porta {
+class Porta_NOR: public Porta {//Definindo Porta_NOR, herdando a Classe Porta;
 public:
   inline Porta_NOR(): Porta() {}
   inline ~Porta_NOR() {}
   ptr_Porta clone() const {return new Porta_NOR(*this);}
 
-  void digitar();
-  bool ler(istream &I);
-  ostream &imprimir(ostream &O) const;
+  void digitar();//Método digitar, homônimo ao método digitar de Porta;
+  bool ler(istream &I);//Método dler, homônimo ao método ler de Porta;
+  ostream &imprimir(ostream &O) const;//Método imprimir, homônimo ao método imprimir de Porta;
 
-  bool_3S simular(const bool_3S in[]);
+  bool_3S simular(const bool_3S in[]);//Método simular, homônimo ao método digitar de Porta;
 };
 
-class Porta_XOR: public Porta {
+class Porta_XOR: public Porta {//Definindo Porta_XOR, herdando a Classe Porta;
 public:
   inline Porta_XOR(): Porta() {}
   inline ~Porta_XOR() {}
   ptr_Porta clone() const {return new Porta_XOR(*this);}
 
-  void digitar();
-  bool ler(istream &I);
-  ostream &imprimir(ostream &O) const;
+  void digitar();//Método digitar, homônimo ao método digitar de Porta;
+  bool ler(istream &I);//Método dler, homônimo ao método ler de Porta;
+  ostream &imprimir(ostream &O) const;//Método imprimir, homônimo ao método imprimir de Porta;
 
-  bool_3S simular(const bool_3S in[]);
+  bool_3S simular(const bool_3S in[]);//Método simular, homônimo ao método digitar de Porta;
 };
 
-class Porta_NXOR: public Porta {
+class Porta_NXOR: public Porta {//Definindo Porta_NXOR, herdando a Classe Porta;
 public:
   inline Porta_NXOR(): Porta() {}
   inline ~Porta_NXOR() {}
   ptr_Porta clone() const {return new Porta_NXOR(*this);}
 
-  void digitar();
-  bool ler(istream &I);
-  ostream &imprimir(ostream &O) const;
+  void digitar();//Método digitar, homônimo ao método digitar de Porta;
+  bool ler(istream &I);//Método dler, homônimo ao método ler de Porta;
+  ostream &imprimir(ostream &O) const;//Método imprimir, homônimo ao método imprimir de Porta;
 
-  bool_3S simular(const bool_3S in[]);
+  bool_3S simular(const bool_3S in[]);//Método simular, homônimo ao método digitar de Porta;
 };
 
 class Circuito {
