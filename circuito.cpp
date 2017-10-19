@@ -7,51 +7,12 @@
 
 using namespace std;
 
-//OPERADORES
-  bool_3S operator~(bool_3S x) //NOT
-  {
-	if(x==TRUE_3S) return FALSE_3S;
-	if(x==FALSE_3S) return TRUE_3S;
-	if(x==UNDEF_3S) return UNDEF_3S;
-  }
-  bool_3S operator&(bool_3S x, bool_3S y) //AND
-  {
-	//Se os dois forem TRUE, retorna TRUE
-	if((x==TRUE_3S)&&(y==TRUE_3S)) return TRUE_3S;
-	else 
-	{
-		//Se ao menos um FALSE retorna FALSE
-		if((x==FALSE_3S) || (y==FALSE_3S) return FALSE_3S;
-		//Retorna UNDEF para os restantes casos
-		/*
-		x AND 1 - x
-		1 AND x - x
-		x AND x	- x	
-		*/
-		else return UNDEF_3S
-		//Se erro, repensar
-		//if (((x==TRUE_3S)||(x==UNDEF_3S)) && (y==UNDEF_3S)) return UNDEF_3S
-	}
-	//if(x==FALSE_3S) return TRUE_3S;
-	//if(x==UNDEF_3S) return UNDEF_3S;
-  }
-  bool_3S operator|(bool_3S x, bool_3S y) //OR
-  {
-	  
-  }
-  bool_3S operator^(bool_3S x, bool_3S y) //XOR
-  {
-	  
-  }
-
-
 
 //PORTA
 
 
 Porta::Porta(unsigned int NI)
 {
-    //alocando porta
     Nin = NI;
     saida = UNDEF_3S;
     //id_in[Nin];
@@ -59,7 +20,6 @@ Porta::Porta(unsigned int NI)
 }
 Porta::Porta(const Porta &P)
 {
-    //construtor por cópia
     Nin = P.Nin;
     saida = P.saida;
     //id_in[Nin];
@@ -67,8 +27,7 @@ Porta::Porta(const Porta &P)
 }
 void Porta::setSaida(bool_3S s)
 {
-    //Salva a saída fornecidade, se -1<=s<=1
-    if ((s>=UNDEF_3S) && (s<=TRUE_3S)) saida=s; 
+    if ((s>=UNDEF_3S) && (s<=TRUE_3S)) saida=s;
     else 
     {
         cerr << "Sinal digital inválido!" << endl;
@@ -76,8 +35,7 @@ void Porta::setSaida(bool_3S s)
 }
 int Porta::getId_in(unsigned int i) const
 {
-    //Retorna a indicação de da origem do sinal da entrada desse porta
-    if ((i>0) && (i<NUM_MAX_INPUTS_PORTA)) return id_in[i]; 
+    if ((i>0) && (i<NUM_MAX_INPUTS_PORTA)) return id_in[i]=N;
     else 
     {
         cerr << "Número de entradas inválida!" << endl;
@@ -86,7 +44,6 @@ int Porta::getId_in(unsigned int i) const
 }
 void Porta::setId_in(unsigned int i, int N)
 {
-    //Oferece uma origem para o sinal da porta  
     if ((i>0) && (i<Nin)) id_in[i]=N;
     else 
     {
@@ -104,12 +61,12 @@ void Porta::digitar()
     for (unsigned i=0; i<Nin; i++)
     {
         cout << "Digite a origem do sinal lógico da " << i+1 << "ª entrada da porta: ";
-        cin >> id_in[i]; //Que porta ou entrada origina o sinal
+        cin >> id_in[i];
     }
 }
 bool Porta::ler(istream& I)
 {
-    I.ignore(numeric_limits<streamsize>::max(), ' '); //Ignora até achar um espaço apó so nome da porta
+    I.ignore(numeric_limits<streamsize>::max(), ' ');
     I >> Nin;
     for (unsigned i=0; i<Nin; i++)
     {
@@ -122,7 +79,7 @@ bool Porta::ler(istream& I)
 ostream &Porta::imprimir(ostream &O) const
 {
     O << Nin << ": ";
-    for (unsigned i=0; i<Nin; i++) O << id_in[i] << " "; 
+    for (unsigned i=0; i<Nin; i++) O << id_in[i] << " ";
 
     return O;
 }
@@ -147,7 +104,7 @@ ostream &Porta_NOT::imprimir(ostream& O) const
 }
 bool_3S Porta_NOT::simular(const bool_3S in[])
 {
-    bool_3S prov;
+	bool_3S prov;
 	if (in[0]!=UNDEF_3S) prov = (!in[0]);
 	else prov = in[0]
 	return prov;
@@ -170,7 +127,7 @@ ostream &Porta_AND::imprimir(ostream& O) const
 }
 bool_3S Porta_AND::simular(const bool_3S in[])
 {
-    bool_3S prov;
+	bool_3S prov;
 	prov = in[0];
 	for (unsigned i=1; i<Nin; i++) prov = (prov && in[i]);
 	return prov;
@@ -193,7 +150,7 @@ ostream &Porta_NAND::imprimir(ostream& O) const
 }
 bool_3S Porta_NAND::simular(const bool_3S in[])
 {
-    bool_3S prov;
+	bool_3S prov;
 	prov = in[0];
 	for (unsigned i=1; i<Nin; i++) prov = (prov && in[i]);
 	return (!prov);
@@ -216,7 +173,7 @@ ostream &Porta_OR::imprimir(ostream& O) const
 }
 bool_3S Porta_OR::simular(const bool_3S in[])
 {
-    bool_3S prov;
+	bool_3S prov;
 	prov = in[0];
 	for (unsigned i=1; i<Nin; i++)
 	{
@@ -242,7 +199,7 @@ ostream &Porta_NOR::imprimir(ostream& O) const
 }
 bool_3S Porta_NOR::simular(const bool_3S in[])
 {
-    bool_3S prov;
+	bool_3S prov;
 	prov = in[0];
 	for (unsigned i=1; i<Nin; i++)
 	{
@@ -269,7 +226,7 @@ ostream &Porta_XOR::imprimir(ostream& O) const
 }
 bool_3S Porta_XOR::simular(const bool_3S in[])
 {
-    bool_3S prov;
+	bool_3S prov;
 	prov = in[0];
 	for (unsigned i=1; i<Nin; i++)
 	{
@@ -295,7 +252,7 @@ ostream &Porta_NXOR::imprimir(ostream& O) const
 }
 bool_3S Porta_NXOR::simular(const bool_3S in[])
 {
-    bool_3S prov;
+	bool_3S prov;
 	prov = in[0];
 	for (unsigned i=1; i<Nin; i++)
 	{
@@ -310,26 +267,22 @@ bool_3S Porta_NXOR::simular(const bool_3S in[])
 
 void Circuito::limpar()
 {
-    //Libera array inputs
     if (inputs!=NULL)
     {
         delete[] inputs;
         inputs = NULL;
     }
-    //Libera array id_out
     if (id_out!=NULL)
     {
         delete[] id_out;
         id_out = NULL;
     }
-    //Libera array de ptrs portas
     if (portas!=NULL)
     {
         for (unsigned i=0; i<Nportas; i++) delete portas[i];
         delete[] portas;
         portas = NULL;
     }
-    //Zera todos os quantificadores
     Nin = 0;
     Nout = 0;
     Nportas = 0;
@@ -338,12 +291,10 @@ void Circuito::alocar(unsigned int NI, unsigned int NO, unsigned int NP)
 {
     limpar();
     
-    //Aloca os quantificadores com os valores fornecidos
     Nin = NI;
     Nout = NO;
     Nportas = NP;
     
-    //Aloca dinâmicamente os arrays
     inputs = new bool_3S[Nin];
     id_out = new int[Nout];
     portas = new ptr_Porta[Nportas];
@@ -353,15 +304,12 @@ void Circuito::copiar(const Circuito& C)
     limpar();
     alocar(C.Nin, C.Nout, C.Nportas);
     
-    //Realiza as cópias necessárias
-    //obs.: uso do método clone
     for (unsigned i=0; i<Nin; i++) inputs[i]=C.inputs[i];
     for (unsigned i=0; i<Nout; i++) id_out[i]=C.id_out[i];
     for (unsigned i=0; i<Nportas; i++) portas[i] = C.portas[i]->clone();
 }
 void Circuito::digitar()
 {
-    //Cria as variáveis temporárias
     int op;
     Porta_NOT tNOT;
     Porta_AND tAND;
@@ -371,34 +319,29 @@ void Circuito::digitar()
     Porta_XOR tXOR;
     Porta_NXOR tNXOR;
     
-    //Número de entradas do circuito
     do 
     {
         cout << "Digite o número de entradas do circuito: ";
         cin >> Nin;
     } while (Nin<=0);
-    //Número de saídas do circuito
     do 
     {
         cout << "Digite o número de saídas do circuito: ";
         cin >> Nout;
     } while (Nout<=0);
-    //Número de portas do circuito
     do 
     {
         cout << "Digite o número de portas lógicas do circuito: ";
         cin >> Nportas;
     } while (Nportas<=0);
     
-    //Aloca os arrays
     alocar(Nin, Nout, Nportas);
     
     
     //Definição das portas
     
-    for (unsigned i=0; i<Nportas; i++) //ler a quantidade de portas fornecidas
+    for (unsigned i=0; i<Nportas; i++)
     {
-        //Menu de escolha
         cout << "\nINSERIR UMA PORTA:\n";
         do {
             cout << "0 - Porta NOT\n";
@@ -412,7 +355,6 @@ void Circuito::digitar()
             cin >> op;
         } while(op<0 || op>7);
         
-        //Ler por meio de teclado o tipo de porta
         switch (op)
         {
             case 0:
@@ -448,7 +390,6 @@ void Circuito::digitar()
         }
     }
     
-    //Define a origem do sinal das saídas do circuitos, se de uma porta ou entrada
     for (unsigned i=0; i<Nout; i++)
     {
         cout << "Digite a origem do sinal lógico da " << i+1 << "ª saída do circuito: ";
@@ -456,12 +397,11 @@ void Circuito::digitar()
     }
 
 }
-void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem variável
+void Circuito::ler(const char*nome)
 {
     ifstream arquivo(nome);
     if (arquivo.is_open())
     {
-        //Variáveis temporárias para a leitura
         string prov;
         Porta_NOT tNOT;
         Porta_AND tAND;
@@ -472,38 +412,26 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
         Porta_NXOR tNXOR;
 
 
-      //Lendo cabeçalho geral
+        //Lendo cabeçalho geral
         arquivo >> prov;
         if (prov != "CIRCUITO:")
         {
             cerr << "Arquivo com cabeçalho principal inválido\n";
         }
-        else //FAlta Prever erros para a falta de algum dos elementos
+        else //Prever erros para a falta de algum dos elementos
         {
-            arquivo.ignore(numeric_limits<streamsize>::max(), ' ');        
-            arquivo >> Nin;//Nin>0;
-            if(Nin<=0){
-                cerr << "Numero invalido de entradas!"
-                return;
-            }
             arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
-            arquivo >> Nout;//Nout>0;
-            if(Nin<=0){
-                cerr << "Numero invalido de saidas!"
-                return;
-            }
+            arquivo >> Nin;
             arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
-            arquivo >> Nportas;//Nportas>0;
-            if(Nportas<=0){
-                cerr << "Numero invalido de portas!"
-                        return;
-            }
+            arquivo >> Nout;
+            arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
+            arquivo >> Nportas;
         }
-        //Aloca os arrays
+        
         alocar(Nin, Nout, Nportas);
         
         arquivo >> prov;
-        if (prov != "PORTAS:") //Ler o segundo cabeçalho
+        if (prov != "PORTAS:")
         {
             cerr << "Arquivo com cabeçalho de portas inválido\n";
         }
@@ -522,72 +450,37 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
                 {
 
                 case 'NT':
-					if(tNOT.ler(arquivo)) portas[i]=(&tNOT)->clone();
-					else 
-					{
-						cerr << "Erro na leitura de uma porta NOT!";
-						return;
-					}
-					break;
+
+                    break;
                 case 'AN':
-					if(tAND.ler(arquivo)) portas[i]=(&tAND)->clone();
-					else 
-					{
-						cerr << "Erro na leitura de uma  AND!";
-						return;
-					}
+
                     break;
                 }
                 case 'NA':
-					if(tNAND.ler(arquivo)) portas[i]=(&tNAND)->clone();
-					else 
-					{
-						cerr << "Erro na leitura de uma porta NAND!";
-						return;
-					}
+
                     break;
                 case 'OR':
-					if(tOR.ler(arquivo)) portas[i]=(&tOR)->clone();
-					else 
-					{
-						cerr << "Erro na leitura de uma porta OR!";
-						return;
-					}
+
                     break;
                 case 'NO':
-					if(tNOR.ler(arquivo)) portas[i]=(&tNOR)->clone();
-					else 
-					{
-						cerr << "Erro na leitura de uma porta NOR!";
-						return;
-					}
+
                     break;
                 case 'XO':
-					if(tXOR.ler(arquivo)) portas[i]=(&tXOR)->clone();
-					else 
-					{
-						cerr << "Erro na leitura de uma porta XOR!";
-						return;
-					}
+
                     break;
                 case 'NX':
-					if(tNXOR.ler(arquivo)) portas[i]=(&tNXOR)->clone();
-					else 
-					{
-						cerr << "Erro na leitura de uma porta NXOR!";
-						return;
-					}
+
                     break;
                 default:
                 // Primeiro caractere da linha nao era nenhuma das opçoes validas
                 cerr << "Arquivo " << arquivo << " parcialmente invalido para leitura\n";
                 return;
-                //portas[i]->ler(arquivo);
+                portas[i]->ler(arquivo);
             }
         }
         
         arquivo >> prov;
-        if (prov != "SAIDAS:") //Ler o terceiro cabeçalho
+        if (prov != "SAIDAS:")
         {
             cerr << "Arquivo com cabeçalho de saídas inválido\n";
         }
@@ -603,14 +496,13 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
         //Fechando arquivo
         arquivo.close();
     }
-    else //Erro na abertura geral do arquivo
+    else
     {
         cerr << "Erro na abertura do arquivo \"" << nome << "\" para leitura\n";
     }
 }
 ostream &Circuito::imprimir(ostream& O) const
 {
-    //Impressão padrão do circuito
     O << "CIRCUITO: " << Nin << " " << Nout << " " << Nportas << endl;
     O << "PORTAS:" << endl;
     for (unsigned i=0; i<Nportas; i++) 
@@ -625,10 +517,9 @@ ostream &Circuito::imprimir(ostream& O) const
         O << i+1 << ") ";
         O << id_out[i] << endl;
     }
-    //Retorna ostream
     return O;
 }
-void Circuito::salvar(const char*nome) const //Adicionei esse nome, pois antes estava sem variável
+void Circuito::salvar(const char*nome) const
 {
     ofstream arquivo(nome);
     //arquivo.is_open();
@@ -644,7 +535,6 @@ void Circuito::salvar(const char*nome) const //Adicionei esse nome, pois antes e
 }
 void Circuito::digitarEntradas()
 {
-    //Digitar os valores lógicos das entradas em caso de simulação
     cout << "Digite os valores lógicos das entradas: " << endl;
     for (unsigned i=0; i<Nin; i++)
     {
@@ -657,14 +547,12 @@ void Circuito::digitarEntradas()
 }
 void Circuito::imprimirEntradas() const
 {
-    //Imprime os valores lógicos das entradas
     cout << "Valores das entradas do circuito: " << endl;
     for (unsigned i=0; i<Nin; i++) cout << "Entrada " << i+1 << " : " << inputs[i] << endl; 
 }
 void Circuito::imprimirSaidas() const
 {
-    //Imprime a origem do sinal das saídas do circuito
-    cout << "Origem do sinal das saídas do circuito: " << endl;
+    cout << "Valores das saídas do circuito: " << endl;
     for (unsigned i=0; i<Nout; i++) cout << "Saída " << i+1 << " : " << id_out[i] << endl; 
 }
 void Circuito::simular()
