@@ -7,6 +7,44 @@
 
 using namespace std;
 
+//OPERADORES
+  bool_3S operator~(bool_3S x) //NOT
+  {
+	if(x==TRUE_3S) return FALSE_3S;
+	if(x==FALSE_3S) return TRUE_3S;
+	if(x==UNDEF_3S) return UNDEF_3S;
+  }
+  bool_3S operator&(bool_3S x, bool_3S y) //AND
+  {
+	//Se os dois forem TRUE, retorna TRUE
+	if((x==TRUE_3S)&&(y==TRUE_3S)) return TRUE_3S;
+	else 
+	{
+		//Se ao menos um FALSE retorna FALSE
+		if((x==FALSE_3S) || (y==FALSE_3S) return FALSE_3S;
+		//Retorna UNDEF para os restantes casos
+		/*
+		x AND 1 - x
+		1 AND x - x
+		x AND x	- x	
+		*/
+		else return UNDEF_3S
+		//Se erro, repensar
+		//if (((x==TRUE_3S)||(x==UNDEF_3S)) && (y==UNDEF_3S)) return UNDEF_3S
+	}
+	//if(x==FALSE_3S) return TRUE_3S;
+	//if(x==UNDEF_3S) return UNDEF_3S;
+  }
+  bool_3S operator|(bool_3S x, bool_3S y) //OR
+  {
+	  
+  }
+  bool_3S operator^(bool_3S x, bool_3S y) //XOR
+  {
+	  
+  }
+
+
 
 //PORTA
 
@@ -473,26 +511,61 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
                 {
 
                 case 'NT':
-
-                    break;
+					if(tNOT.ler(arquivo)) portas[i]=(&tNOT)->clone();
+					else 
+					{
+						cerr << "Erro na leitura de uma porta NOT!";
+						return;
+					}
+					break;
                 case 'AN':
-
+					if(tAND.ler(arquivo)) portas[i]=(&tAND)->clone();
+					else 
+					{
+						cerr << "Erro na leitura de uma  AND!";
+						return;
+					}
                     break;
                 }
                 case 'NA':
-
+					if(tNAND.ler(arquivo)) portas[i]=(&tNAND)->clone();
+					else 
+					{
+						cerr << "Erro na leitura de uma porta NAND!";
+						return;
+					}
                     break;
                 case 'OR':
-
+					if(tOR.ler(arquivo)) portas[i]=(&tOR)->clone();
+					else 
+					{
+						cerr << "Erro na leitura de uma porta OR!";
+						return;
+					}
                     break;
                 case 'NO':
-
+					if(tNOR.ler(arquivo)) portas[i]=(&tNOR)->clone();
+					else 
+					{
+						cerr << "Erro na leitura de uma porta NOR!";
+						return;
+					}
                     break;
                 case 'XO':
-
+					if(tXOR.ler(arquivo)) portas[i]=(&tXOR)->clone();
+					else 
+					{
+						cerr << "Erro na leitura de uma porta XOR!";
+						return;
+					}
                     break;
                 case 'NX':
-
+					if(tNXOR.ler(arquivo)) portas[i]=(&tNXOR)->clone();
+					else 
+					{
+						cerr << "Erro na leitura de uma porta NXOR!";
+						return;
+					}
                     break;
                 default:
                 // Primeiro caractere da linha nao era nenhuma das opçoes validas
