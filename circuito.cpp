@@ -472,7 +472,7 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
         Porta_NXOR tNXOR;
 
 
-        //Lendo cabeçalho geral
+      //Lendo cabeçalho geral
         arquivo >> prov;
         if (prov != "CIRCUITO:")
         {
@@ -480,14 +480,25 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
         }
         else //FAlta Prever erros para a falta de algum dos elementos
         {
+            arquivo.ignore(numeric_limits<streamsize>::max(), ' ');        
+            arquivo >> Nin;//Nin>0;
+            if(Nin<=0){
+                cerr << "Numero invalido de entradas!"
+                return;
+            }
             arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
-            arquivo >> Nin;
+            arquivo >> Nout;//Nout>0;
+            if(Nin<=0){
+                cerr << "Numero invalido de saidas!"
+                return;
+            }
             arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
-            arquivo >> Nout;
-            arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
-            arquivo >> Nportas;
+            arquivo >> Nportas;//Nportas>0;
+            if(Nportas<=0){
+                cerr << "Numero invalido de portas!"
+                        return;
+            }
         }
-        
         //Aloca os arrays
         alocar(Nin, Nout, Nportas);
         
