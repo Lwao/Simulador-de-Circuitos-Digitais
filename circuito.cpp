@@ -10,13 +10,14 @@ using namespace std;
 //OPERADORES
   bool_3S operator~(bool_3S x) //NOT
   {
-	if(x==TRUE_3S) return FALSE_3S;
+      //Define as operações lógicas NOT para o tipo bool_3S;
+        if(x==TRUE_3S) return FALSE_3S;
 	if(x==FALSE_3S) return TRUE_3S;
 	if(x==UNDEF_3S) return UNDEF_3S;
   }
   bool_3S operator&(bool_3S x, bool_3S y) //AND
   {
-	//Se os dois forem TRUE, retorna TRUE
+        //Se os dois forem TRUE, retorna TRUE
 	if((x==TRUE_3S)&&(y==TRUE_3S)) return TRUE_3S;
 	else 
 	{
@@ -77,15 +78,15 @@ using namespace std;
 
 Porta::Porta(unsigned int NI)
 {
-    //alocando porta
-    Nin = NI;
-    saida = UNDEF_3S;
+    //Alocando Porta;
+    Nin = NI; //Faz o número de entradas ser igual a variável NI, passada como parâmetro;
+    saida = UNDEF_3S; //Inicia a saída da porta com o valor UNDEF_3S;
     //id_in[Nin];
     for (unsigned i=0; i<Nin; i++) id_in[i]=UNDEF_3S;
 }
 Porta::Porta(const Porta &P)
 {
-    //construtor por cópia
+    //Construtor por cópia
     Nin = P.Nin;
     saida = P.saida;
     //id_in[Nin];
