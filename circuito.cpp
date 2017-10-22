@@ -104,7 +104,7 @@ void Porta::setSaida(bool_3S s)
 int Porta::getId_in(unsigned int i) const
 {
     //Retorna a indicação de da origem do sinal da entrada desse porta
-    if ((i>0) && (i<NUM_MAX_INPUTS_PORTA)) return id_in[i];
+    if ((i>=0) && (i<NUM_MAX_INPUTS_PORTA)) return id_in[i];
     else
     {
         cerr << "Número de entradas inválida!" << endl;
