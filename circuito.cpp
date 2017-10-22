@@ -19,17 +19,17 @@ using namespace std;
   {
         //Se os dois forem TRUE, retorna TRUE
 	if((x==TRUE_3S)&&(y==TRUE_3S)) return TRUE_3S;
-	else 
+	else
 	{
 		//Se ao menos um FALSE retorna FALSE
-		if((x==FALSE_3S) || (y==FALSE_3S) return FALSE_3S;
+		if((x==FALSE_3S) || (y==FALSE_3S)) return FALSE_3S;
 		//Retorna UNDEF para os restantes casos
 		/*
 		x AND 1 - x
 		1 AND x - x
-		x AND x	- x	
+		x AND x	- x
 		*/
-		else return UNDEF_3S
+		else return UNDEF_3S;
 		//Se erro, repensar
 		//if (((x==TRUE_3S)||(x==UNDEF_3S)) && (y==UNDEF_3S)) return UNDEF_3S
 	}
@@ -55,7 +55,7 @@ using namespace std;
   {
 	  //Diferentes entre si, assumindo ou TRUE ou FALSE, retorna TRUE
 	  if(((x==TRUE_3S)&&(y==FALSE_3S))||((x==FALSE_3S)&&(y==TRUE_3S))) return TRUE_3S;
-	  else 
+	  else
 	  {
 		//Iguais entre si, assumindo ou TRUE ou FALSE, retorna FALSE
 		if(((x==TRUE_3S)&&(y==TRUE_3S))||((x==FALSE_3S)&&(y==FALSE_3S))) return FALSE_3S;
@@ -90,13 +90,13 @@ Porta::Porta(const Porta &P)
     Nin = P.Nin;
     saida = P.saida;
     //id_in[Nin];
-    for (unsigned i=0; i<Nin; i++) id_in[i]=P.id_in[i];    
+    for (unsigned i=0; i<Nin; i++) id_in[i]=P.id_in[i];
 }
 void Porta::setSaida(bool_3S s)
 {
     //Salva a saída fornecidade, se -1<=s<=1
-    if ((s>=UNDEF_3S) && (s<=TRUE_3S)) saida=s; 
-    else 
+    if ((s>=UNDEF_3S) && (s<=TRUE_3S)) saida=s;
+    else
     {
         cerr << "Sinal digital inválido!" << endl;
     }
@@ -104,18 +104,18 @@ void Porta::setSaida(bool_3S s)
 int Porta::getId_in(unsigned int i) const
 {
     //Retorna a indicação de da origem do sinal da entrada desse porta
-    if ((i>0) && (i<NUM_MAX_INPUTS_PORTA)) return id_in[i]; 
-    else 
+    if ((i>0) && (i<NUM_MAX_INPUTS_PORTA)) return id_in[i];
+    else
     {
         cerr << "Número de entradas inválida!" << endl;
-        return ;
+        return 0;
     }
 }
 void Porta::setId_in(unsigned int i, int N)
 {
-    //Oferece uma origem para o sinal da porta  
+    //Oferece uma origem para o sinal da porta
     if ((i>0) && (i<Nin)) id_in[i]=N;
-    else 
+    else
     {
         cerr << "Número de entrada inválida!" << endl;
     }
@@ -127,7 +127,7 @@ void Porta::digitar()
     cout << "Digite o número de entradas da porta: ";
     cin >> Nin;
     } while ((Nin<0) || (Nin>NUM_MAX_INPUTS_PORTA));
-    
+
     for (unsigned i=0; i<Nin; i++)
     {
         cout << "Digite a origem do sinal lógico da " << i+1 << "ª entrada da porta: ";
@@ -142,17 +142,17 @@ bool Porta::ler(istream& I)
     for (unsigned i=0; i<Nin; i++)
     {
         I.ignore(numeric_limits<streamsize>::max(), ' ');
-        I >> id_in[i];   
+        I >> id_in[i];
 		if (id_in!=0) count++; //conta se todos os id_ins são !=0
     }
     //Se Nin for maior que nulo e todas as ids de entrada forem !=0
-	if((Nin>0)&&(count==Nin))) return true;
-	else return false
+	if((Nin>0)&&(count==Nin)) return true;
+	else return false;
 }
 ostream &Porta::imprimir(ostream &O) const
 {
     O << Nin << ": ";
-    for (unsigned i=0; i<Nin; i++) O << id_in[i] << " "; 
+    for (unsigned i=0; i<Nin; i++) O << id_in[i] << " ";
 
     return O;
 }
@@ -170,12 +170,12 @@ bool Porta_NOT::ler(istream& I)
     I.ignore(numeric_limits<streamsize>::max(), ' '); //Ignora até achar um espaço após o nome da porta
     I >> Nin;
 	//Se Nin for diferente de 1, não pode constituir NOT
-	if (Nin!=1) return false; 
+	if (Nin!=1) return false;
 	else
 	{
 		I.ignore(numeric_limits<streamsize>::max(), ' ');
-		I >> id_in[0]; 
-		return true;		
+		I >> id_in[0];
+		return true;
 	}
 }
 ostream &Porta_NOT::imprimir(ostream& O) const
@@ -233,7 +233,7 @@ bool_3S Porta_NAND::simular(const bool_3S in[])
 {
     bool_3S prov;
 	prov = in[0];
-	for (unsigned i=1; i<Nin; i++) prov = (pro&in[i]);
+	for (unsigned i=1; i<Nin; i++) prov = (prov&in[i]);
 	return (~prov);
 }
 
@@ -327,7 +327,7 @@ void Porta_NXOR::digitar()
 }
 bool Porta_NXOR::ler(istream& I)
 {
-	Porta::ler(I); 
+	Porta::ler(I);
 }
 ostream &Porta_NXOR::imprimir(ostream& O) const
 {
@@ -347,7 +347,7 @@ bool_3S Porta_NXOR::simular(const bool_3S in[])
 }
 
 
-//CIRCUITO 
+//CIRCUITO
 
 
 void Circuito::limpar()
@@ -379,12 +379,12 @@ void Circuito::limpar()
 void Circuito::alocar(unsigned int NI, unsigned int NO, unsigned int NP)
 {
     limpar();
-    
+
     //Aloca os quantificadores com os valores fornecidos
     Nin = NI;
     Nout = NO;
     Nportas = NP;
-    
+
     //Aloca dinâmicamente os arrays
     inputs = new bool_3S[Nin];
     id_out = new int[Nout];
@@ -394,7 +394,7 @@ void Circuito::copiar(const Circuito& C)
 {
     limpar();
     alocar(C.Nin, C.Nout, C.Nportas);
-    
+
     //Realiza as cópias necessárias
     //obs.: uso do método clone
     for (unsigned i=0; i<Nin; i++) inputs[i]=C.inputs[i];
@@ -412,32 +412,32 @@ void Circuito::digitar()
     Porta_NOR tNOR;
     Porta_XOR tXOR;
     Porta_NXOR tNXOR;
-    
+
     //Número de entradas do circuito
-    do 
+    do
     {
         cout << "Digite o número de entradas do circuito: ";
         cin >> Nin;
     } while (Nin<=0);
     //Número de saídas do circuito
-    do 
+    do
     {
         cout << "Digite o número de saídas do circuito: ";
         cin >> Nout;
     } while (Nout<=0);
     //Número de portas do circuito
-    do 
+    do
     {
         cout << "Digite o número de portas lógicas do circuito: ";
         cin >> Nportas;
     } while (Nportas<=0);
-    
+
     //Aloca os arrays
     alocar(Nin, Nout, Nportas);
-    
-    
+
+
     //Definição das portas
-    
+
     for (unsigned i=0; i<Nportas; i++) //ler a quantidade de portas fornecidas
     {
         //Menu de escolha
@@ -453,7 +453,7 @@ void Circuito::digitar()
             cout << "Qual sua opção? ";
             cin >> op;
         } while(op<0 || op>7);
-        
+
         //Ler por meio de teclado o tipo de porta
         switch (op)
         {
@@ -489,7 +489,7 @@ void Circuito::digitar()
                 break;
         }
     }
-    
+
     //Define a origem do sinal das saídas do circuitos, se de uma porta ou entrada
     for (unsigned i=0; i<Nout; i++)
     {
@@ -524,32 +524,32 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
         }
         else //FAlta Prever erros para a falta de algum dos elementos
         {
-            arquivo.ignore(numeric_limits<streamsize>::max(), ' ');        
+            arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
             arquivo >> Nin;//Nin>0;
             if(Nin<=0){
-                cerr << "Numero invalido de entradas!"
+                cerr << "Numero invalido de entradas!" << endl;
                 return;
             }
             arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
             arquivo >> Nout;//Nout>0;
             if(Nin<=0){
-                cerr << "Numero invalido de saidas!"
+                cerr << "Numero invalido de saidas!" << endl;
                 return;
             }
             arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
             arquivo >> Nportas;//Nportas>0;
             if(Nportas<=0){
-                cerr << "Numero invalido de portas!"
+                cerr << "Numero invalido de portas!" << endl;
                 return;
             }
         }
         //Aloca os arrays
         alocar(Nin, Nout, Nportas);
-        
+
         arquivo >> prov;
         if (prov != "PORTAS:") //Ler o segundo cabeçalho
         {
-            cerr << "Arquivo com cabeçalho de portas inválido\n";
+            cerr << "Arquivo com cabeçalho de portas inválido!" << endl;
         }
         else
         {
@@ -561,9 +561,9 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
                 // Vai para o inicio de uma linha (ignora ENTER de linha anterior)
                 arquivo.ignore(numeric_limits<streamsize>::max(), '\n');
 				arquivo >> temp; //Recebe o número antes do parênteses ")"
-				if(temp!=i+1) //Se 
+				if(temp!=i+1) //Se
 				{
-					cerr << "Numeração da porta fora de ordem! << endl;
+					cerr << "Numeração da porta fora de ordem!" << endl;
 					return;
 				}
 				arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
@@ -572,7 +572,7 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
                 switch(prov)
                 {
 					case 'NT':
-						if(tNOT.ler(arquivo)) 
+						if(tNOT.ler(arquivo))
 						{
 							portas[i]=(&tNOT)->clone();
 							//for que percorre todas as origens de entrada da porta lida
@@ -598,14 +598,14 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 							}
 							count=0; //zera contador para próxima leitura
 						}
-						else 
+						else
 						{
 							cerr << "Erro na leitura de uma porta NOT!";
 							return;
 						}
 						break;
 					case 'AN':
-						if(tAND.ler(arquivo)) 
+						if(tAND.ler(arquivo))
 						{
 							portas[i]=(&tAND)->clone();
 							//for que percorre todas as origens de entrada da porta lida
@@ -631,14 +631,14 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 							}
 							count=0; //zera contador para próxima leitura
 						}
-						else 
+						else
 						{
 							cerr << "Erro na leitura de uma  AND!";
 							return;
 						}
 						break;
 					case 'NA':
-						if(tNAND.ler(arquivo)) 
+						if(tNAND.ler(arquivo))
 						{
 							portas[i]=(&tNAND)->clone();
 							//for que percorre todas as origens de entrada da porta lida
@@ -664,14 +664,14 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 							}
 							count=0; //zera contador para próxima leitura
 						}
-						else 
+						else
 						{
 							cerr << "Erro na leitura de uma porta NAND!";
 							return;
 						}
 						break;
 					case 'OR':
-						if(tOR.ler(arquivo)) 
+						if(tOR.ler(arquivo))
 						{
 							portas[i]=(&tOR->clone();
 							//for que percorre todas as origens de entrada da porta lida
@@ -697,14 +697,14 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 							}
 							count=0; //zera contador para próxima leitura
 						}
-						else 
+						else
 						{
 							cerr << "Erro na leitura de uma porta OR!";
 							return;
 						}
 						break;
 					case 'NO':
-						if(tNOR.ler(arquivo)) 
+						if(tNOR.ler(arquivo))
 						{
 							portas[i]=(&tNOR->clone();
 							//for que percorre todas as origens de entrada da porta lida
@@ -730,14 +730,14 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 							}
 							count=0; //zera contador para próxima leitura
 						}
-						else 
+						else
 						{
 							cerr << "Erro na leitura de uma porta NOR!";
 							return;
 						}
 						break;
 					case 'XO':
-						if(tXOR.ler(arquivo)) 
+						if(tXOR.ler(arquivo))
 						{
 							portas[i]=(&tXOR->clone();
 							//for que percorre todas as origens de entrada da porta lida
@@ -763,14 +763,14 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 							}
 							count=0; //zera contador para próxima leitura
 						}
-						else 
+						else
 						{
 							cerr << "Erro na leitura de uma porta XOR!";
 							return;
 						}
 						break;
 					case 'NX':
-						if(tNXOR.ler(arquivo)) 
+						if(tNXOR.ler(arquivo))
 						{
 							portas[i]=(&tNXOR->clone();
 							//for que percorre todas as origens de entrada da porta lida
@@ -796,7 +796,7 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 							}
 							count=0; //zera contador para próxima leitura
 						}
-						else 
+						else
 						{
 							cerr << "Erro na leitura de uma porta NXOR!";
 							return;
@@ -810,7 +810,7 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 				}
             }
         }
-        
+
         arquivo >> prov;
         if (prov != "SAIDAS:") //Ler o terceiro cabeçalho
         {
@@ -822,19 +822,19 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
             {
                 arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
                 arquivo >> id_out[i];
-				if ((id_out[i]==0)||(id_out[i]>Nportas)) 
+				if ((id_out[i]==0)||(id_out[i]>Nportas))
 				{
 					cerr << "Id de porta igual a zero!" << endl;
 					return;
-				}	
+				}
 				if(id_out[i]!=i+1)//Se estiver fora da ordem de leitura das saidas
 				{
-					cerr << "Numeração da saída fora de ordem! << endl;
+					cerr << "Numeração da saída fora de ordem!" << endl;
 					return;
 				}
             }
         }
-        
+
         //Fechando arquivo
         arquivo.close();
     }
@@ -848,7 +848,7 @@ ostream &Circuito::imprimir(ostream& O) const
     //Impressão padrão do circuito
     O << "CIRCUITO: " << Nin << " " << Nout << " " << Nportas << endl;
     O << "PORTAS:" << endl;
-    for (unsigned i=0; i<Nportas; i++) 
+    for (unsigned i=0; i<Nportas; i++)
     {
         O << i+1 << ") ";
         portas[i]->imprimir(O);
@@ -894,21 +894,21 @@ void Circuito::imprimirEntradas() const
 {
     //Imprime os valores lógicos das entradas
     cout << "Valores das entradas do circuito: " << endl;
-    for (unsigned i=0; i<Nin; i++) cout << "Entrada " << i+1 << " : " << inputs[i] << endl; 
+    for (unsigned i=0; i<Nin; i++) cout << "Entrada " << i+1 << " : " << inputs[i] << endl;
 }
 void Circuito::imprimirSaidas() const
 {
     //Imprime a origem do sinal das saídas do circuito
     cout << "Origem do sinal das saídas do circuito: " << endl;
-    for (unsigned i=0; i<Nout; i++) cout << "Saída " << i+1 << " : " << id_out[i] << endl; 
+    for (unsigned i=0; i<Nout; i++) cout << "Saída " << i+1 << " : " << id_out[i] << endl;
 }
 void Circuito::simular()
 {
     bool tudo_def, alguma_def, in_portas[4];
-    
+
     for (unsigned i=0; i<Nportas; i++) *portas[i]->saida = UNDEF_3S;
-    
-    do 
+
+    do
     {
         tudo_def = TRUE_3S;
         alguma_def = FALSE_3S;
@@ -917,12 +917,12 @@ void Circuito::simular()
             if (*portas[i]->saida == UNDEF_3S)
             {
 				//ATENÇÃO, IMPORTANTE
-				//Nesse FOR, cada coordenada de in_portas[] 
+				//Nesse FOR, cada coordenada de in_portas[]
 				//Recebe valor lógico da saída das portas de id_in[0] até id_in[Nin-1]
 				//Que servem de entradas para *portas[i]
 				for (unsigned j=0; j<*portas[i]->Nin; j++) in_portas[j]=*portas[(*portas[i]->id_in[j])]->saida;
 				//in_portas = /*entradas booleanas da porta i;*/ //Vetor de valores lógicos das entradas da porta
-				
+
 				portas[i]->saida = portas[i]->simular(in_porta);//Simula a porta e armazena o resultado em sua saída
                 if (portas[i].saida == UNDEF_3S)
                 {
@@ -935,12 +935,12 @@ void Circuito::simular()
             }
         }
     } while (!tudo_def && alguma_def)
-   
+
 
 	//imprime uma linha da tabela verdade
 	//obs: o método tabela vai repetir isso (3^Nin) vezes
-	
-	
+
+
 	//primeiro imprime as entradas do vetor de inputs
 	cout << "ENTRADAS: ";
 	for (unsigned i=0; i<Nin; i++)
@@ -954,7 +954,7 @@ void Circuito::simular()
 	}
 	//depois imprime as saidas do circuito
 	//as saídas dos circuitos vão receber a saída de alguma porta
-	//a id dessa porta que vai oferecer saída para o circuito está 
+	//a id dessa porta que vai oferecer saída para o circuito está
 	//nos Nout elementos do vetor id_out
 	//cada int do id_out vai ser projetado para procurar a saída da porta indicada
 	//imprimindo-a
@@ -963,13 +963,13 @@ void Circuito::simular()
 	cout << endl; //Enter para a próxima leitura
 }
 void Circuito::gerarTabela()
-{    
+{
     for (unsigned i=0; i<Nin; i++) *(inputs[i]) = FALSE_3S;
-    
+
     do
     {
         Circuito::simular();
-        
+
         //Qual input incrementar?
         i = Nin-1;
         while ((i>=0) && (inputs[i]==UNDEF_3S)) //se for undef, coloca para false
@@ -977,7 +977,7 @@ void Circuito::gerarTabela()
             *(inputs[i])=FALSE_3S;
             i--;
         }
-        
+
         //Incrementa a input escolhida
         if (i>=0)
         {
