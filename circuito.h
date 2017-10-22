@@ -1,6 +1,5 @@
 #ifndef _CIRCUITO_H_
 #define _CIRCUITO_H_
-//diep.io/#D2839634BB304145C545
 #include <iostream>
 
 using namespace std;
