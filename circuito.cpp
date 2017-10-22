@@ -114,7 +114,7 @@ int Porta::getId_in(unsigned int i) const
 void Porta::setId_in(unsigned int i, int N)
 {
     //Oferece uma origem para o sinal da porta
-    if ((i>0) && (i<Nin)) id_in[i]=N;
+    if ((i>=0) && (i<Nin)) id_in[i]=N;
     else
     {
         cerr << "Número de entrada inválida!" << endl;
@@ -1000,7 +1000,7 @@ void Circuito::gerarTabela()
     do
     {
         Circuito::simular();
-		Circuito::imprimirSaidas();
+	Circuito::imprimirSaidas();
 
         //Qual input incrementar?
         i = Nin-1;
