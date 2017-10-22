@@ -2,3 +2,5 @@
 O objetivo é desenvolver em C++ um programa simulador de circuitos lógicos, composto por portas lógicas de 2 a 4 entradas (ou de uma entrada, no caso da NOT) dos seguintes tipos: NOT, AND, NAND, OR, NOR, XOR e NXOR.
 
 
+OBS: Eu achei muito repetitivo os códigos para verificação de erros no método Circuito::ler. Seria menos repetitivo se Nportas e Nout pudessem ser enviadas para os métodos Porta_AND::ler, ..., em diante. Mas se você achar um jeito melhor de implementar, agradeço.
+
