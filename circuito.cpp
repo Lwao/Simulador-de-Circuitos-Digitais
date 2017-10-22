@@ -504,6 +504,7 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
     if (arquivo.is_open())
     {
         //Variáveis temporárias para a leitura
+		int temp;
 		unsigned count(0); //contador
         string prov;
         Porta_NOT tNOT;
@@ -559,6 +560,13 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
             {
                 // Vai para o inicio de uma linha (ignora ENTER de linha anterior)
                 arquivo.ignore(numeric_limits<streamsize>::max(), '\n');
+				arquivo >> temp; //Recebe o número antes do parênteses ")"
+				if(temp!=i+1) //Se 
+				{
+					cerr << "Numeração da porta fora de ordem! << endl;
+					return;
+				}
+				arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
                 arquivo >> prov;
 
                 switch(prov)
@@ -819,6 +827,11 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 					cerr << "Id de porta igual a zero!" << endl;
 					return;
 				}	
+				if(id_out[i]!=i+1)//Se estiver fora da ordem de leitura das saidas
+				{
+					cerr << "Numeração da saída fora de ordem! << endl;
+					return;
+				}
             }
         }
         
