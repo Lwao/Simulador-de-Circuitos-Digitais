@@ -563,244 +563,243 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 
                 switch(prov)
                 {
-
-                case 'NT':
-					if(tNOT.ler(arquivo)) 
-					{
-						portas[i]=(&tNOT)->clone();
-						//for que percorre todas as origens de entrada da porta lida
-						for (unsigned k=0; k<tNOT.Nin; k++)
+					case 'NT':
+						if(tNOT.ler(arquivo)) 
 						{
-							if(tNOT.id_in[k]<0)//Se entrada for entrada do circuito
+							portas[i]=(&tNOT)->clone();
+							//for que percorre todas as origens de entrada da porta lida
+							for (unsigned k=0; k<tNOT.Nin; k++)
 							{
-								//Módulo do id tem que ser menos/igual a Nout
-								if(-tNOT.id_in[k]<=Nout) count++;
+								if(tNOT.id_in[k]<0)//Se entrada for entrada do circuito
+								{
+									//Módulo do id tem que ser menos/igual a Nout
+									if(-tNOT.id_in[k]<=Nout) count++;
+								}
+								else //Se entrada for saída de uma porta
+								{
+									//Id menor/igual a Nportas
+									if(tNOT.id_in[k]<=Nportas) count++;
+								}
 							}
-							else //Se entrada for saída de uma porta
+							//Se uma das duas condições do for forem atendidas para todos os casos
+							if(count==tNOT.Nin)//continua a leitura
+							else //interrompe leitura e msg de erro
 							{
-								//Id menor/igual a Nportas
-								if(tNOT.id_in[k]<=Nportas) count++;
+								cerr << "Id de entrada da porta maior que o número de portas" << endl;
+								return;
 							}
+							count=0; //zera contador para próxima leitura
 						}
-						//Se uma das duas condições do for forem atendidas para todos os casos
-						if(count==tNOT.Nin)//continua a leitura
-						else //interrompe leitura e msg de erro
+						else 
 						{
-							cerr << "Id de entrada da porta maior que o número de portas" << endl;
+							cerr << "Erro na leitura de uma porta NOT!";
 							return;
 						}
-						count=0; //zera contador para próxima leitura
-					}
-					else 
-					{
-						cerr << "Erro na leitura de uma porta NOT!";
-						return;
-					}
-					break;
-                case 'AN':
-					if(tAND.ler(arquivo)) 
-					{
-						portas[i]=(&tAND)->clone();
-						//for que percorre todas as origens de entrada da porta lida
-						for (unsigned k=0; k<tAND.Nin; k++)
+						break;
+					case 'AN':
+						if(tAND.ler(arquivo)) 
 						{
-							if(tAND.id_in[k]<0)//Se entrada for entrada do circuito
+							portas[i]=(&tAND)->clone();
+							//for que percorre todas as origens de entrada da porta lida
+							for (unsigned k=0; k<tAND.Nin; k++)
 							{
-								//Módulo do id tem que ser menos/igual a Nout
-								if(-tAND.id_in[k]<=Nout) count++;
+								if(tAND.id_in[k]<0)//Se entrada for entrada do circuito
+								{
+									//Módulo do id tem que ser menos/igual a Nout
+									if(-tAND.id_in[k]<=Nout) count++;
+								}
+								else //Se entrada for saída de uma porta
+								{
+									//Id menor/igual a Nportas
+									if(tAND.id_in[k]<=Nportas) count++;
+								}
 							}
-							else //Se entrada for saída de uma porta
+							//Se uma das duas condições do for forem atendidas para todos os casos
+							if(count==tAND.Nin)//continua a leitura
+							else //interrompe leitura e msg de erro
 							{
-								//Id menor/igual a Nportas
-								if(tAND.id_in[k]<=Nportas) count++;
+								cerr << "Id de entrada da porta maior que o número de portas" << endl;
+								return;
 							}
+							count=0; //zera contador para próxima leitura
 						}
-						//Se uma das duas condições do for forem atendidas para todos os casos
-						if(count==tAND.Nin)//continua a leitura
-						else //interrompe leitura e msg de erro
+						else 
 						{
-							cerr << "Id de entrada da porta maior que o número de portas" << endl;
+							cerr << "Erro na leitura de uma  AND!";
 							return;
 						}
-						count=0; //zera contador para próxima leitura
-					}
-					else 
-					{
-						cerr << "Erro na leitura de uma  AND!";
-						return;
-					}
-                    break;
-                }
-                case 'NA':
-					if(tNAND.ler(arquivo)) 
-					{
-						portas[i]=(&tNAND)->clone();
-						//for que percorre todas as origens de entrada da porta lida
-						for (unsigned k=0; k<tNAND.Nin; k++)
+						break;
+					case 'NA':
+						if(tNAND.ler(arquivo)) 
 						{
-							if(tNAND.id_in[k]<0)//Se entrada for entrada do circuito
+							portas[i]=(&tNAND)->clone();
+							//for que percorre todas as origens de entrada da porta lida
+							for (unsigned k=0; k<tNAND.Nin; k++)
 							{
-								//Módulo do id tem que ser menos/igual a Nout
-								if(-tNAND.id_in[k]<=Nout) count++;
+								if(tNAND.id_in[k]<0)//Se entrada for entrada do circuito
+								{
+									//Módulo do id tem que ser menos/igual a Nout
+									if(-tNAND.id_in[k]<=Nout) count++;
+								}
+								else //Se entrada for saída de uma porta
+								{
+									//Id menor/igual a Nportas
+									if(tNAND.id_in[k]<=Nportas) count++;
+								}
 							}
-							else //Se entrada for saída de uma porta
+							//Se uma das duas condições do for forem atendidas para todos os casos
+							if(count==tNAND.Nin)//continua a leitura
+							else //interrompe leitura e msg de erro
 							{
-								//Id menor/igual a Nportas
-								if(tNAND.id_in[k]<=Nportas) count++;
+								cerr << "Id de entrada da porta maior que o número de portas" << endl;
+								return;
 							}
+							count=0; //zera contador para próxima leitura
 						}
-						//Se uma das duas condições do for forem atendidas para todos os casos
-						if(count==tNAND.Nin)//continua a leitura
-						else //interrompe leitura e msg de erro
+						else 
 						{
-							cerr << "Id de entrada da porta maior que o número de portas" << endl;
+							cerr << "Erro na leitura de uma porta NAND!";
 							return;
 						}
-						count=0; //zera contador para próxima leitura
-					}
-					else 
-					{
-						cerr << "Erro na leitura de uma porta NAND!";
-						return;
-					}
-                    break;
-                case 'OR':
-					if(tOR.ler(arquivo)) 
-					{
-						portas[i]=(&tOR->clone();
-						//for que percorre todas as origens de entrada da porta lida
-						for (unsigned k=0; k<tOR.Nin; k++)
+						break;
+					case 'OR':
+						if(tOR.ler(arquivo)) 
 						{
-							if(tOR.id_in[k]<0)//Se entrada for entrada do circuito
+							portas[i]=(&tOR->clone();
+							//for que percorre todas as origens de entrada da porta lida
+							for (unsigned k=0; k<tOR.Nin; k++)
 							{
-								//Módulo do id tem que ser menos/igual a Nout
-								if(-tOR.id_in[k]<=Nout) count++;
+								if(tOR.id_in[k]<0)//Se entrada for entrada do circuito
+								{
+									//Módulo do id tem que ser menos/igual a Nout
+									if(-tOR.id_in[k]<=Nout) count++;
+								}
+								else //Se entrada for saída de uma porta
+								{
+									//Id menor/igual a Nportas
+									if(tOR.id_in[k]<=Nportas) count++;
+								}
 							}
-							else //Se entrada for saída de uma porta
+							//Se uma das duas condições do for forem atendidas para todos os casos
+							if(count==tOR.Nin)//continua a leitura
+							else //interrompe leitura e msg de erro
 							{
-								//Id menor/igual a Nportas
-								if(tOR.id_in[k]<=Nportas) count++;
+								cerr << "Id de entrada da porta maior que o número de portas" << endl;
+								return;
 							}
+							count=0; //zera contador para próxima leitura
 						}
-						//Se uma das duas condições do for forem atendidas para todos os casos
-						if(count==tOR.Nin)//continua a leitura
-						else //interrompe leitura e msg de erro
+						else 
 						{
-							cerr << "Id de entrada da porta maior que o número de portas" << endl;
+							cerr << "Erro na leitura de uma porta OR!";
 							return;
 						}
-						count=0; //zera contador para próxima leitura
-					}
-					else 
-					{
-						cerr << "Erro na leitura de uma porta OR!";
-						return;
-					}
-                    break;
-                case 'NO':
-					if(tNOR.ler(arquivo)) 
-					{
-						portas[i]=(&tNOR->clone();
-						//for que percorre todas as origens de entrada da porta lida
-						for (unsigned k=0; k<tNOR.Nin; k++)
+						break;
+					case 'NO':
+						if(tNOR.ler(arquivo)) 
 						{
-							if(tNOR.id_in[k]<0)//Se entrada for entrada do circuito
+							portas[i]=(&tNOR->clone();
+							//for que percorre todas as origens de entrada da porta lida
+							for (unsigned k=0; k<tNOR.Nin; k++)
 							{
-								//Módulo do id tem que ser menos/igual a Nout
-								if(-tNOR.id_in[k]<=Nout) count++;
+								if(tNOR.id_in[k]<0)//Se entrada for entrada do circuito
+								{
+									//Módulo do id tem que ser menos/igual a Nout
+									if(-tNOR.id_in[k]<=Nout) count++;
+								}
+								else //Se entrada for saída de uma porta
+								{
+									//Id menor/igual a Nportas
+									if(tNOR.id_in[k]<=Nportas) count++;
+								}
 							}
-							else //Se entrada for saída de uma porta
+							//Se uma das duas condições do for forem atendidas para todos os casos
+							if(count==tNOR.Nin)//continua a leitura
+							else //interrompe leitura e msg de erro
 							{
-								//Id menor/igual a Nportas
-								if(tNOR.id_in[k]<=Nportas) count++;
+								cerr << "Id de entrada da porta maior que o número de portas" << endl;
+								return;
 							}
+							count=0; //zera contador para próxima leitura
 						}
-						//Se uma das duas condições do for forem atendidas para todos os casos
-						if(count==tNOR.Nin)//continua a leitura
-						else //interrompe leitura e msg de erro
+						else 
 						{
-							cerr << "Id de entrada da porta maior que o número de portas" << endl;
+							cerr << "Erro na leitura de uma porta NOR!";
 							return;
 						}
-						count=0; //zera contador para próxima leitura
-					}
-					else 
-					{
-						cerr << "Erro na leitura de uma porta NOR!";
-						return;
-					}
-                    break;
-                case 'XO':
-					if(tXOR.ler(arquivo)) 
-					{
-						portas[i]=(&tXOR->clone();
-						//for que percorre todas as origens de entrada da porta lida
-						for (unsigned k=0; k<tXOR.Nin; k++)
+						break;
+					case 'XO':
+						if(tXOR.ler(arquivo)) 
 						{
-							if(tXOR.id_in[k]<0)//Se entrada for entrada do circuito
+							portas[i]=(&tXOR->clone();
+							//for que percorre todas as origens de entrada da porta lida
+							for (unsigned k=0; k<tXOR.Nin; k++)
 							{
-								//Módulo do id tem que ser menos/igual a Nout
-								if(-tXOR.id_in[k]<=Nout) count++;
+								if(tXOR.id_in[k]<0)//Se entrada for entrada do circuito
+								{
+									//Módulo do id tem que ser menos/igual a Nout
+									if(-tXOR.id_in[k]<=Nout) count++;
+								}
+								else //Se entrada for saída de uma porta
+								{
+									//Id menor/igual a Nportas
+									if(tXOR.id_in[k]<=Nportas) count++;
+								}
 							}
-							else //Se entrada for saída de uma porta
+							//Se uma das duas condições do for forem atendidas para todos os casos
+							if(count==tXOR.Nin)//continua a leitura
+							else //interrompe leitura e msg de erro
 							{
-								//Id menor/igual a Nportas
-								if(tXOR.id_in[k]<=Nportas) count++;
+								cerr << "Id de entrada da porta maior que o número de portas" << endl;
+								return;
 							}
+							count=0; //zera contador para próxima leitura
 						}
-						//Se uma das duas condições do for forem atendidas para todos os casos
-						if(count==tXOR.Nin)//continua a leitura
-						else //interrompe leitura e msg de erro
+						else 
 						{
-							cerr << "Id de entrada da porta maior que o número de portas" << endl;
+							cerr << "Erro na leitura de uma porta XOR!";
 							return;
 						}
-						count=0; //zera contador para próxima leitura
-					}
-					else 
-					{
-						cerr << "Erro na leitura de uma porta XOR!";
-						return;
-					}
-                    break;
-                case 'NX':
-					if(tNXOR.ler(arquivo)) 
-					{
-						portas[i]=(&tNXOR->clone();
-						//for que percorre todas as origens de entrada da porta lida
-						for (unsigned k=0; k<tNXOR.Nin; k++)
+						break;
+					case 'NX':
+						if(tNXOR.ler(arquivo)) 
 						{
-							if(tNXOR.id_in[k]<0)//Se entrada for entrada do circuito
+							portas[i]=(&tNXOR->clone();
+							//for que percorre todas as origens de entrada da porta lida
+							for (unsigned k=0; k<tNXOR.Nin; k++)
 							{
-								//Módulo do id tem que ser menos/igual a Nout
-								if(-tNXOR.id_in[k]<=Nout) count++;
+								if(tNXOR.id_in[k]<0)//Se entrada for entrada do circuito
+								{
+									//Módulo do id tem que ser menos/igual a Nout
+									if(-tNXOR.id_in[k]<=Nout) count++;
+								}
+								else //Se entrada for saída de uma porta
+								{
+									//Id menor/igual a Nportas
+									if(tNXOR.id_in[k]<=Nportas) count++;
+								}
 							}
-							else //Se entrada for saída de uma porta
+							//Se uma das duas condições do for forem atendidas para todos os casos
+							if(count==tNXOR.Nin)//continua a leitura
+							else //interrompe leitura e msg de erro
 							{
-								//Id menor/igual a Nportas
-								if(tNXOR.id_in[k]<=Nportas) count++;
+								cerr << "Id de entrada da porta maior que o número de portas" << endl;
+								return;
 							}
+							count=0; //zera contador para próxima leitura
 						}
-						//Se uma das duas condições do for forem atendidas para todos os casos
-						if(count==tNXOR.Nin)//continua a leitura
-						else //interrompe leitura e msg de erro
+						else 
 						{
-							cerr << "Id de entrada da porta maior que o número de portas" << endl;
+							cerr << "Erro na leitura de uma porta NXOR!";
 							return;
 						}
-						count=0; //zera contador para próxima leitura
-					}
-					else 
-					{
-						cerr << "Erro na leitura de uma porta NXOR!";
-						return;
-					}
-                    break;
-                default:
-                // Primeiro caractere da linha nao era nenhuma das opçoes validas
-                cerr << "Arquivo " << arquivo << " parcialmente invalido para leitura\n";
-                return;
-                /*portas[i]->ler(arquivo);*/
+						break;
+					default:
+					// Primeiro caractere da linha nao era nenhuma das opçoes validas
+					cerr << "Arquivo " << arquivo << " parcialmente invalido para leitura\n";
+					return;
+					/*portas[i]->ler(arquivo);*/
+				}
             }
         }
         
@@ -815,6 +814,11 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
             {
                 arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
                 arquivo >> id_out[i];
+				if ((id_out[i]==0)||(id_out[i]>Nportas)) 
+				{
+					cerr << "Id de porta igual a zero!" << endl;
+					return;
+				}	
             }
         }
         
@@ -918,7 +922,32 @@ void Circuito::simular()
             }
         }
     } while (!tudo_def && alguma_def)
-    
+   
+
+	//imprime uma linha da tabela verdade
+	//obs: o método tabela vai repetir isso (3^Nin) vezes
+	
+	
+	//primeiro imprime as entradas do vetor de inputs
+	cout << "ENTRADAS: ";
+	for (unsigned i=0; i<Nin; i++)
+	{
+		if(inputs[i]==TRUE_3S) cout << "T ";
+		else
+		{
+			if(inputs[i]==FALSE_3S) cout << "F ";
+			else cout << "? ";
+		}
+	}
+	//depois imprime as saidas do circuito
+	//as saídas dos circuitos vão receber a saída de alguma porta
+	//a id dessa porta que vai oferecer saída para o circuito está 
+	//nos Nout elementos do vetor id_out
+	//cada int do id_out vai ser projetado para procurar a saída da porta indicada
+	//imprimindo-a
+	cout << "SAIDAS: ";
+	for (unsigned i=0; i<Nout; i++) cout << *portas[id_out[i]]->saida << " ";
+	cout << endl; //Enter para a próxima leitura
 }
 void Circuito::gerarTabela()
 {    
@@ -926,11 +955,11 @@ void Circuito::gerarTabela()
     
     do
     {
-        Circuito::simular(inputs);
+        Circuito::simular();
         
         //Qual input incrementar?
         i = Nin-1;
-        while ((i>=0) && (inputs[i]==UNDEF_3S))
+        while ((i>=0) && (inputs[i]==UNDEF_3S)) //se for undef, coloca para false
         {
             *(inputs[i])=FALSE_3S;
             i--;
@@ -939,11 +968,11 @@ void Circuito::gerarTabela()
         //Incrementa a input escolhida
         if (i>=0)
         {
-            if (*(inputs[i])==FALSE_3S)
+            if (*(inputs[i])==FALSE_3S)//se for false, coloca para true
             {
                 *(inputs[i])=TRUE_3S;
             }
-            else //é true
+            else //se for true, coloca para undef, pq false já foi
             {
                 *(inputs[i])=UNDEF_3S
             }
