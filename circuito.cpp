@@ -163,7 +163,6 @@ ostream &Porta::imprimir(ostream &O) const
 
 void Porta_NOT::digitar()
 {
-    Porta::digitar();
 }
 bool Porta_NOT::ler(istream& I)
 {
@@ -576,21 +575,21 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 						{
 							portas[i]=(&tNOT)->clone();
 							//for que percorre todas as origens de entrada da porta lida
-							for (unsigned k=0; k<tNOT.Nin; k++)
+							for (unsigned k=0; k<tNOT.getNumInputs(); k++)
 							{
-								if(tNOT.id_in[k]<0)//Se entrada for entrada do circuito
+								if(tNOT.getId_in(k)<0)//Se entrada for entrada do circuito
 								{
 									//Módulo do id tem que ser menos/igual a Nout
-									if(-tNOT.id_in[k]<=Nout) count++;
+									if(-tNOT.getId_in(k)<=Nout) count++;
 								}
 								else //Se entrada for saída de uma porta
 								{
 									//Id menor/igual a Nportas
-									if(tNOT.id_in[k]<=Nportas) count++;
+									if(tNOT.getId_in(k)<=Nportas) count++;
 								}
 							}
 							//Se uma das duas condições do for forem atendidas para todos os casos
-							if(count==tNOT.Nin)//continua a leitura
+							if(count==tNOT.getNumInputs())//continua a leitura
 							else //interrompe leitura e msg de erro
 							{
 								cerr << "Id de entrada da porta maior que o número de portas" << endl;
@@ -609,21 +608,21 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 						{
 							portas[i]=(&tAND)->clone();
 							//for que percorre todas as origens de entrada da porta lida
-							for (unsigned k=0; k<tAND.Nin; k++)
+							for (unsigned k=0; k<tAND.getNumInputs(); k++)
 							{
-								if(tAND.id_in[k]<0)//Se entrada for entrada do circuito
+								if(tAND.getId_in(k)<0)//Se entrada for entrada do circuito
 								{
 									//Módulo do id tem que ser menos/igual a Nout
-									if(-tAND.id_in[k]<=Nout) count++;
+									if(-tAND.getId_in(k)<=Nout) count++;
 								}
 								else //Se entrada for saída de uma porta
 								{
 									//Id menor/igual a Nportas
-									if(tAND.id_in[k]<=Nportas) count++;
+									if(tAND.getId_in(k)<=Nportas) count++;
 								}
 							}
 							//Se uma das duas condições do for forem atendidas para todos os casos
-							if(count==tAND.Nin)//continua a leitura
+							if(count==tAND.getNumInputs())//continua a leitura
 							else //interrompe leitura e msg de erro
 							{
 								cerr << "Id de entrada da porta maior que o número de portas" << endl;
@@ -642,21 +641,21 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 						{
 							portas[i]=(&tNAND)->clone();
 							//for que percorre todas as origens de entrada da porta lida
-							for (unsigned k=0; k<tNAND.Nin; k++)
+							for (unsigned k=0; k<tNAND.getNumInputs(); k++)
 							{
-								if(tNAND.id_in[k]<0)//Se entrada for entrada do circuito
+								if(tNAND.getId_in(k)<0)//Se entrada for entrada do circuito
 								{
 									//Módulo do id tem que ser menos/igual a Nout
-									if(-tNAND.id_in[k]<=Nout) count++;
+									if(-tNAND.getId_in(k)<=Nout) count++;
 								}
 								else //Se entrada for saída de uma porta
 								{
 									//Id menor/igual a Nportas
-									if(tNAND.id_in[k]<=Nportas) count++;
+									if(tNAND.getId_in(k)<=Nportas) count++;
 								}
 							}
 							//Se uma das duas condições do for forem atendidas para todos os casos
-							if(count==tNAND.Nin)//continua a leitura
+							if(count==tNAND.getNumInputs())//continua a leitura
 							else //interrompe leitura e msg de erro
 							{
 								cerr << "Id de entrada da porta maior que o número de portas" << endl;
@@ -675,21 +674,21 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 						{
 							portas[i]=(&tOR->clone();
 							//for que percorre todas as origens de entrada da porta lida
-							for (unsigned k=0; k<tOR.Nin; k++)
+							for (unsigned k=0; k<tOR.getNumInputs(); k++)
 							{
-								if(tOR.id_in[k]<0)//Se entrada for entrada do circuito
+								if(tOR.getId_in(k)<0)//Se entrada for entrada do circuito
 								{
 									//Módulo do id tem que ser menos/igual a Nout
-									if(-tOR.id_in[k]<=Nout) count++;
+									if(-tOR.getId_in(k)<=Nout) count++;
 								}
 								else //Se entrada for saída de uma porta
 								{
 									//Id menor/igual a Nportas
-									if(tOR.id_in[k]<=Nportas) count++;
+									if(tOR.getId_in(k)<=Nportas) count++;
 								}
 							}
 							//Se uma das duas condições do for forem atendidas para todos os casos
-							if(count==tOR.Nin)//continua a leitura
+							if(count==tOR.getNumInputs())//continua a leitura
 							else //interrompe leitura e msg de erro
 							{
 								cerr << "Id de entrada da porta maior que o número de portas" << endl;
@@ -708,21 +707,21 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 						{
 							portas[i]=(&tNOR->clone();
 							//for que percorre todas as origens de entrada da porta lida
-							for (unsigned k=0; k<tNOR.Nin; k++)
+							for (unsigned k=0; k<tNOR.getNumInputs(); k++)
 							{
-								if(tNOR.id_in[k]<0)//Se entrada for entrada do circuito
+								if(tNOR.getId_in(k)<0)//Se entrada for entrada do circuito
 								{
 									//Módulo do id tem que ser menos/igual a Nout
-									if(-tNOR.id_in[k]<=Nout) count++;
+									if(-tNOR.getId_in(k)<=Nout) count++;
 								}
 								else //Se entrada for saída de uma porta
 								{
 									//Id menor/igual a Nportas
-									if(tNOR.id_in[k]<=Nportas) count++;
+									if(tNOR.getId_in(k)<=Nportas) count++;
 								}
 							}
 							//Se uma das duas condições do for forem atendidas para todos os casos
-							if(count==tNOR.Nin)//continua a leitura
+							if(count==tNOR.getNumInputs())//continua a leitura
 							else //interrompe leitura e msg de erro
 							{
 								cerr << "Id de entrada da porta maior que o número de portas" << endl;
@@ -741,21 +740,21 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 						{
 							portas[i]=(&tXOR->clone();
 							//for que percorre todas as origens de entrada da porta lida
-							for (unsigned k=0; k<tXOR.Nin; k++)
+							for (unsigned k=0; k<tXOR.getNumInputs(); k++)
 							{
-								if(tXOR.id_in[k]<0)//Se entrada for entrada do circuito
+								if(tXOR.getId_in(k)<0)//Se entrada for entrada do circuito
 								{
 									//Módulo do id tem que ser menos/igual a Nout
-									if(-tXOR.id_in[k]<=Nout) count++;
+									if(-tXOR.getId_in(k)<=Nout) count++;
 								}
 								else //Se entrada for saída de uma porta
 								{
 									//Id menor/igual a Nportas
-									if(tXOR.id_in[k]<=Nportas) count++;
+									if(tXOR.getId_in(k)<=Nportas) count++;
 								}
 							}
 							//Se uma das duas condições do for forem atendidas para todos os casos
-							if(count==tXOR.Nin)//continua a leitura
+							if(count==tXOR.getNumInputs())//continua a leitura
 							else //interrompe leitura e msg de erro
 							{
 								cerr << "Id de entrada da porta maior que o número de portas" << endl;
@@ -774,21 +773,21 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 						{
 							portas[i]=(&tNXOR->clone();
 							//for que percorre todas as origens de entrada da porta lida
-							for (unsigned k=0; k<tNXOR.Nin; k++)
+							for (unsigned k=0; k<tNXOR.getNumInputs(); k++)
 							{
-								if(tNXOR.id_in[k]<0)//Se entrada for entrada do circuito
+								if(tNXOR.getId_in(k)<0)//Se entrada for entrada do circuito
 								{
 									//Módulo do id tem que ser menos/igual a Nout
-									if(-tNXOR.id_in[k]<=Nout) count++;
+									if(-tNXOR.getId_in(k)<=Nout) count++;
 								}
 								else //Se entrada for saída de uma porta
 								{
 									//Id menor/igual a Nportas
-									if(tNXOR.id_in[k]<=Nportas) count++;
+									if(tNXOR.getId_in(k)<=Nportas) count++;
 								}
 							}
 							//Se uma das duas condições do for forem atendidas para todos os casos
-							if(count==tNXOR.Nin)//continua a leitura
+							if(count==tNXOR.getNumInputs())//continua a leitura
 							else //interrompe leitura e msg de erro
 							{
 								cerr << "Id de entrada da porta maior que o número de portas" << endl;
@@ -806,7 +805,6 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 					// Primeiro caractere da linha nao era nenhuma das opçoes validas
 					cerr << "Arquivo " << arquivo << " parcialmente invalido para leitura\n";
 					return;
-					/*portas[i]->ler(arquivo);*/
 				}
             }
         }
@@ -893,20 +891,50 @@ void Circuito::digitarEntradas()
 void Circuito::imprimirEntradas() const
 {
     //Imprime os valores lógicos das entradas
-    cout << "Valores das entradas do circuito: " << endl;
+	//imprime as entradas do vetor de inputs
+	cout << "ENTRADAS: ";
+	for (unsigned i=0; i<Nin; i++)
+	{
+		if(inputs[i]==TRUE_3S) cout << "T ";
+		else
+		{
+			if(inputs[i]==FALSE_3S) cout << "F ";
+			else cout << "? ";
+		}
+	}
+	/*
+	cout << "Valores das entradas do circuito: " << endl;
     for (unsigned i=0; i<Nin; i++) cout << "Entrada " << i+1 << " : " << inputs[i] << endl;
+	*/
 }
 void Circuito::imprimirSaidas() const
 {
-    //Imprime a origem do sinal das saídas do circuito
-    cout << "Origem do sinal das saídas do circuito: " << endl;
+	//Só faz sentido imprimirSaidas <=> já imprimiu entradas
+	//Lembrando que de acordo com que as entradas mudam, as saidas tbm mudam
+    imprimirEntradas();
+	
+	//Imprime a origem do sinal das saídas do circuito
+    //imprime as saidas do circuito
+	//as saídas dos circuitos vão receber a saída de alguma porta
+	//a id dessa porta que vai oferecer saída para o circuito está
+	//nos Nout elementos do vetor id_out
+	//cada int do id_out vai ser projetado para procurar a saída da porta indicada
+	//imprimindo-a
+	cout << "SAIDAS: ";
+	for (unsigned i=0; i<Nout; i++) cout << *portas[id_out[i]].Porta::getSaida() << " ";
+	cout << endl; //Enter para a próxima leitura
+	
+	
+	/*
+	cout << "Origem do sinal das saídas do circuito: " << endl;
     for (unsigned i=0; i<Nout; i++) cout << "Saída " << i+1 << " : " << id_out[i] << endl;
+	*/
 }
 void Circuito::simular()
 {
     bool tudo_def, alguma_def, in_portas[4];
 
-    for (unsigned i=0; i<Nportas; i++) *portas[i]->saida = UNDEF_3S;
+    for (unsigned i=0; i<Nportas; i++) *portas[i].setSaida(UNDEF_3S);
 
     do
     {
@@ -914,17 +942,17 @@ void Circuito::simular()
         alguma_def = FALSE_3S;
         for (unsigned i=0; i<Nportas; i++)
         {
-            if (*portas[i]->saida == UNDEF_3S)
+            if (*portas[i].getSaida() == UNDEF_3S)
             {
 				//ATENÇÃO, IMPORTANTE
 				//Nesse FOR, cada coordenada de in_portas[]
 				//Recebe valor lógico da saída das portas de id_in[0] até id_in[Nin-1]
 				//Que servem de entradas para *portas[i]
-				for (unsigned j=0; j<*portas[i]->Nin; j++) in_portas[j]=*portas[(*portas[i]->id_in[j])]->saida;
+				for (unsigned j=0; j<*portas[i].getNumInputs(); j++) in_portas[j]=*portas[(*portas[i].getId_in(j))]->getSaida();
 				//in_portas = /*entradas booleanas da porta i;*/ //Vetor de valores lógicos das entradas da porta
 
-				portas[i]->saida = portas[i]->simular(in_porta);//Simula a porta e armazena o resultado em sua saída
-                if (portas[i].saida == UNDEF_3S)
+				*portas[i].setSaida(*portas[i]->simular(in_porta));//Simula a porta e armazena o resultado em sua saída
+                if (*portas[i].getSaida() == UNDEF_3S)
                 {
                     tudo_def = FALSE_3S;
                 }
@@ -936,7 +964,9 @@ void Circuito::simular()
         }
     } while (!tudo_def && alguma_def)
 
-
+		
+	//CÓDIGO TRANSFERIDO PARA MÉTODOS DE IMPRIMIR SAIDAS E ENTRADAS	
+	/*
 	//imprime uma linha da tabela verdade
 	//obs: o método tabela vai repetir isso (3^Nin) vezes
 
@@ -959,8 +989,9 @@ void Circuito::simular()
 	//cada int do id_out vai ser projetado para procurar a saída da porta indicada
 	//imprimindo-a
 	cout << "SAIDAS: ";
-	for (unsigned i=0; i<Nout; i++) cout << *portas[id_out[i]]->saida << " ";
+	for (unsigned i=0; i<Nout; i++) cout << *portas[id_out[i]].Porta::getSaida() << " ";
 	cout << endl; //Enter para a próxima leitura
+	*/
 }
 void Circuito::gerarTabela()
 {
@@ -969,6 +1000,7 @@ void Circuito::gerarTabela()
     do
     {
         Circuito::simular();
+		Circuito::imprimirSaidas();
 
         //Qual input incrementar?
         i = Nin-1;
@@ -991,6 +1023,8 @@ void Circuito::gerarTabela()
             }
         }
     } while (i>=0);
+	
+	
 }
 
 
