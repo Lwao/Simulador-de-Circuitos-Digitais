@@ -104,10 +104,12 @@ void Porta::setSaida(bool_3S s)
 int Porta::getId_in(unsigned int i) const
 {
     //Retorna a indicação de da origem do sinal da entrada desse porta
-    if ((i>=0) && (i<NUM_MAX_INPUTS_PORTA)) return id_in[i];
+    //LINHA 108 ALTERADA
+    //if ((i>=0) && (i<NUM_MAX_INPUTS_PORTA)) return id_in[i];
+    if ((i>=0) && (i<Nin)) return id_in[i];
     else
     {
-        cerr << "Numero de entradas invalida!" << endl;
+        cerr << "Numero de entrada invalido!" << endl;
         return 0;
     }
 }
@@ -457,7 +459,7 @@ void Circuito::digitar()
         cout << "\nINSERIR UMA PORTA:\n";
         do {
             cout << "0 - Porta NOT\n";
-            cout << "1 - Porta AND\n";''
+            cout << "1 - Porta AND\n";
             cout << "2 - Porta NAND\n";
             cout << "3 - Porta OR\n";
             cout << "4 - Porta NOR\n";
@@ -471,10 +473,18 @@ void Circuito::digitar()
         switch (op)
         {
             case 0:
+
+
                 tNOT.digitar();
 
-                portas[i] = (&tNOT)->clone();
-                break;
+               if (((tNOT.getId_in(0)*(-1)<=(Nin))&&(tNOT.getId_in(0)*(-1)>0))||((tNOT.getId_in(0)<=Nportas)&&(tNOT.getId_in(0)>0))){
+                     cout<<"!!!!!Numero do ID:" << tNOT.getId_in(0)<<endl;
+                portas[i] = (&tNOT)->clone();}
+             else{
+               cerr<<"A entrada digitada nao eh valida"<<endl;
+              return;
+               }
+                    break;
             case 1:
                 tAND.digitar();
                 portas[i] = (&tAND)->clone();
@@ -1096,12 +1106,6 @@ void Circuito::gerarTabela()
 
 
 }
-
-
-
-
-
-
 
 
 
