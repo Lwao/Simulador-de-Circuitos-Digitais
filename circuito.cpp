@@ -48,7 +48,7 @@ using namespace std;
 		0 OR x - x
 		x OR x - x
 		*/
-		else UNDEF_3S;
+		else return UNDEF_3S;
 	  }
   }
   bool_3S operator^(bool_3S x, bool_3S y) //XOR
@@ -139,6 +139,7 @@ bool Porta::ler(istream& I)
 	unsigned count(0);
     I.ignore(numeric_limits<streamsize>::max(), ' '); //Ignora até achar um espaço após o nome da porta
     I >> Nin;
+    if(Nin<=0) return false;
     for (unsigned i=0; i<Nin; i++)
     {
         I.ignore(numeric_limits<streamsize>::max(), ' ');
@@ -146,7 +147,7 @@ bool Porta::ler(istream& I)
 		if (id_in!=0) count++; //conta se todos os id_ins são !=0
     }
     //Se Nin for maior que nulo e todas as ids de entrada forem !=0
-	if((Nin>0)&&(count==Nin)) return true;
+	if(count==Nin) return true;
 	else return false;
 }
 ostream &Porta::imprimir(ostream &O) const
@@ -196,7 +197,7 @@ void Porta_AND::digitar()
 }
 bool Porta_AND::ler(istream& I)
 {
-	Porta::ler(I);
+	return Porta::ler(I);
 }
 ostream &Porta_AND::imprimir(ostream& O) const
 {
@@ -220,7 +221,7 @@ void Porta_NAND::digitar()
 }
 bool Porta_NAND::ler(istream& I)
 {
-	Porta::ler(I);
+    return Porta::ler(I);
 }
 ostream &Porta_NAND::imprimir(ostream& O) const
 {
@@ -244,7 +245,7 @@ void Porta_OR::digitar()
 }
 bool Porta_OR::ler(istream& I)
 {
-	Porta::ler(I);
+    return Porta::ler(I);
 }
 ostream &Porta_OR::imprimir(ostream& O) const
 {
@@ -271,7 +272,7 @@ void Porta_NOR::digitar()
 }
 bool Porta_NOR::ler(istream& I)
 {
-	Porta::ler(I);
+    return Porta::ler(I);
 }
 ostream &Porta_NOR::imprimir(ostream& O) const
 {
@@ -299,7 +300,7 @@ void Porta_XOR::digitar()
 }
 bool Porta_XOR::ler(istream& I)
 {
-	Porta::ler(I);
+	return Porta::ler(I);
 }
 ostream &Porta_XOR::imprimir(ostream& O) const
 {
@@ -326,7 +327,7 @@ void Porta_NXOR::digitar()
 }
 bool Porta_NXOR::ler(istream& I)
 {
-	Porta::ler(I);
+	return Porta::ler(I);
 }
 ostream &Porta_NXOR::imprimir(ostream& O) const
 {
@@ -503,7 +504,7 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
     if (arquivo.is_open())
     {
         //Variáveis temporárias para a leitura
-		int temp;
+		unsigned temp;
 		unsigned count(0); //contador
         string prov;
         char p;
@@ -861,16 +862,20 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
         {
             for (unsigned i=0; i<Nout; i++)
             {
-                arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
+                /*arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
+                arquivo >> id_out[i];*/
+                arquivo.ignore(numeric_limits<streamsize>::max(), '\n');
+				arquivo >> temp; //Recebe o número antes do parênteses ")"
+				arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
                 arquivo >> id_out[i];
-				if ((id_out[i]==0)||(id_out[i]>Nportas))
+				if(temp!=i+1) //Se
 				{
-					cerr << "Id de porta igual a zero!" << endl;
+					cerr << "Numeração da porta fora de ordem!" << endl;
 					return;
 				}
-				if(id_out[i]!=i+1)//Se estiver fora da ordem de leitura das saidas
+				if ((id_out[i]==0)||(id_out[i]>Nportas))
 				{
-					cerr << "Numeração da saída fora de ordem!" << endl;
+					cerr << "Id de porta incompativel!" << endl;
 					return;
 				}
             }
@@ -920,32 +925,19 @@ void Circuito::salvar(const char*nome) const //Adicionei esse nome, pois antes e
 }
 void Circuito::digitarEntradas()
 {
-    int temp;
+    bool_3S temp;
     //Digitar os valores lógicos das entradas em caso de simulação
     cout << "Digite os valores lógicos das entradas: " << endl;
     for (unsigned i=0; i<Nin; i++)
     {
         do {
-            cout << "Valor para a porta n° " << i+1 << ": ";
+            cout << "Valor para a entrada n° " << i+1 << ": " << endl();
             cout << "-1 - INDEFINIDO\n";
             cout << "0 - FALSO\n";
             cout << "1 - TRUE\n";
             cin >> temp;
-        } while(temp<-1 || temp>1);
-        switch (temp)
-        {
-            case -1:
-                inputs[i]=UNDEF_3S;
-                break;
-            case 0:
-                inputs[i]=FALSE_3S;
-                break;
-            case 1:
-                inputs[i]=TRUE_3S;
-                break;
-            default:
-                break;
-        }
+        } while((temp!=UNDEF_3S) || (temp!=TRUE_3S) ||(temp!=FALSE_3S));
+        inputs[i]=temp;
     }
 }
 void Circuito::imprimirEntradas() const
