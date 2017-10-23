@@ -167,6 +167,7 @@ public:
   // Operador de atribuicao apenas chama as funcoes copiar e limpar
   inline void operator=(const Circuito &C) {if (this!=&C) {limpar(); copiar(C);}}
 
+  bool verificarErros(const Porta &P);
   // Entrada dos dados de um circuito via teclado
   void digitar();
   // Entrada dos dados de um circuito via arquivo
