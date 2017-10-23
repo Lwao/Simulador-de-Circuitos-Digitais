@@ -4,6 +4,9 @@
 
 using namespace std;
 
+//Dúvidas:
+//Arq0 (Prever leitura);
+
 // Criando um tipo de dados enumerado para representar um booleano com 3 estados:
 // TRUE_3S, FALSE_3S e UNDEF_3S
 
