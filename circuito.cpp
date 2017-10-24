@@ -141,7 +141,7 @@ void Porta::digitar()
 bool Porta::ler(istream& I)
 {
     unsigned count(0);
-    I.ignore(numeric_limits<streamsize>::max(), ' '); //Ignora até achar um espaço após o nome da porta
+   // I.ignore(numeric_limits<streamsize>::max(), ' '); //Ignora até achar um espaço após o nome da porta
     I >> Nin;
     if(Nin<=0) return false;
     for (unsigned i=0; i<Nin; i++)
@@ -176,7 +176,7 @@ void Porta_NOT::digitar()
 }
 bool Porta_NOT::ler(istream& I)
 {
-    I.ignore(numeric_limits<streamsize>::max(), ' '); //Ignora até achar um espaço após o nome da porta
+    //I.ignore(numeric_limits<streamsize>::max(), ' '); //Ignora até achar um espaço após o nome da porta
     I >> Nin;
     //Se Nin for diferente de 1, não pode constituir NOT
     if (Nin!=1) return false;
@@ -551,6 +551,7 @@ void Circuito::digitar()
 void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem variável
 {
     ifstream arquivo(nome);
+    limpar(); //limpar o conteúdo já existente
     if (arquivo.is_open())
     {
         //Variáveis temporárias para a leitura
@@ -621,287 +622,124 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 					return;
 				}
 				arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
-                arquivo >> p;
+                getline(arquivo, prov, ' ');
 
-                switch(p)
+                if(prov=="NT")
                 {
-					case 'N':
-                        arquivo >> p;
-						switch(p)
-						{
-							case 'T':
-							if(tNOT.ler(arquivo))
-							{
-								portas[i]=(&tNOT)->clone();
-								//for que percorre todas as origens de entrada da porta lida
-                                if(verificarErros(tNOT))
-                                {}
-                                else return;
-							}
-							else
-							{
-								cerr << "Erro na leitura de uma porta NOT!\n";
-                                limpar();
-								return;
-							}
-							break;
-							case 'A':
-							if(tNAND.ler(arquivo))
-							{
-								portas[i]=(&tNAND)->clone();
-								//for que percorre todas as origens de entrada da porta lida
-								for (unsigned k=0; k<tNAND.getNumInputs(); k++)
-								{
-									if(tNAND.getId_in(k)<0)//Se entrada for entrada do circuito
-									{
-										//Módulo do id tem que ser menos/igual a Nout
-										if(-tNAND.getId_in(k)<=Nout) count++;
-									}
-									else //Se entrada for saída de uma porta
-									{
-										//Id menor/igual a Nportas
-										if(tNAND.getId_in(k)<=Nportas) count++;
-									}
-								}
-								//Se uma das duas condições do for forem atendidas para todos os casos
-								if(count==tNAND.getNumInputs())
-                                {}//continua a leitura
-								else //interrompe leitura e msg de erro
-								{
-									cerr << "Id de entrada da porta maior que o número de portas" << endl;
-                                    limpar();
-									return;
-								}
-								count=0; //zera contador para próxima leitura
-							}
-							else
-							{
-								cerr << "Erro na leitura de uma porta NAND!\n";
-                                limpar();
-								return;
-							}
-							break;
-                            case 'O':
-							if(tNOR.ler(arquivo))
-							{
-								portas[i]=(&tNOR)->clone();
-								//for que percorre todas as origens de entrada da porta lida
-								for (unsigned k=0; k<tNOR.getNumInputs(); k++)
-								{
-									if(tNOR.getId_in(k)<0)//Se entrada for entrada do circuito
-									{
-										//Módulo do id tem que ser menos/igual a Nout
-										if(-tNOR.getId_in(k)<=Nout) count++;
-									}
-									else //Se entrada for saída de uma porta
-									{
-										//Id menor/igual a Nportas
-										if(tNOR.getId_in(k)<=Nportas) count++;
-									}
-								}
-								//Se uma das duas condições do for forem atendidas para todos os casos
-								if(count==tNOR.getNumInputs())
-                                {}//continua a leitura
-								else //interrompe leitura e msg de erro
-								{
-									cerr << "Id de entrada da porta maior que o número de portas" << endl;
-                                    limpar();
-									return;
-								}
-								count=0; //zera contador para próxima leitura
-							}
-							else
-							{
-								cerr << "Erro na leitura de uma porta NOR!\n";
-                                limpar();
-								return;
-							}
-							break;
-                            case 'X':
-                            if(tNXOR.ler(arquivo))
-							{
-								portas[i]=(&tNXOR)->clone();
-								//for que percorre todas as origens de entrada da porta lida
-								for (unsigned k=0; k<tNXOR.getNumInputs(); k++)
-								{
-									if(tNXOR.getId_in(k)<0)//Se entrada for entrada do circuito
-									{
-										//Módulo do id tem que ser menos/igual a Nout
-										if(-tNXOR.getId_in(k)<=Nout) count++;
-									}
-									else //Se entrada for saída de uma porta
-									{
-										//Id menor/igual a Nportas
-										if(tNXOR.getId_in(k)<=Nportas) count++;
-									}
-								}
-								//Se uma das duas condições do for forem atendidas para todos os casos
-								if(count==tNXOR.getNumInputs())
-                                {}//continua a leitura
-								else //interrompe leitura e msg de erro
-								{
-									cerr << "Id de entrada da porta maior que o número de portas" << endl;
-                                    limpar();
-									return;
-								}
-								count=0; //zera contador para próxima leitura
-							}
-							else
-							{
-								cerr << "Erro na leitura de uma porta NXOR!\n";
-                                limpar();
-								return;
-							}
-							break;
-							default:
-							//Segundo caractere da linha nao era nenhuma das opçoes validas
-							cerr << "Nome da porta inválido N!\n";
-							return;
-						}
-					case 'A':
-                        arquivo >> p;
-						switch(p)
-						{
-							case 'N':
-							if(tAND.ler(arquivo))
-							{
-								portas[i]=(&tAND)->clone();
-								//for que percorre todas as origens de entrada da porta lida
-								for (unsigned k=0; k<tAND.getNumInputs(); k++)
-								{
-									if(tAND.getId_in(k)<0)//Se entrada for entrada do circuito
-									{
-										//Módulo do id tem que ser menos/igual a Nout
-										if(-tAND.getId_in(k)<=Nout) count++;
-									}
-									else //Se entrada for saída de uma porta
-									{
-										//Id menor/igual a Nportas
-										if(tAND.getId_in(k)<=Nportas) count++;
-									}
-								}
-								//Se uma das duas condições do for forem atendidas para todos os casos
-								if(count==tAND.getNumInputs())
-                                {}//continua a leitura
-								else //interrompe leitura e msg de erro
-								{
-									cerr << "Id de entrada da porta maior que o número de portas" << endl;
-                                    limpar();
-									return;
-								}
-								count=0; //zera contador para próxima leitura
-							}
-							else
-							{
-								cerr << "Erro na leitura de uma porta AND!\n";
-                                limpar();
-								return;
-							}
-							break;
-							default:
-							//Segundo caractere da linha nao era nenhuma das opçoes validas
-							cerr << "Nome da porta inválidoA!\n";
-                            limpar();
-							return;
-						}
-					case 'O':
-                        arquivo >> p;
-						switch(p)
-						{
-							case 'R':
-							if(tOR.ler(arquivo))
-							{
-								portas[i]=(&tOR)->clone();
-								//for que percorre todas as origens de entrada da porta lida
-								for (unsigned k=0; k<tOR.getNumInputs(); k++)
-								{
-									if(tOR.getId_in(k)<0)//Se entrada for entrada do circuito
-									{
-										//Módulo do id tem que ser menos/igual a Nout
-										if(-tOR.getId_in(k)<=Nout) count++;
-									}
-									else //Se entrada for saída de uma porta
-									{
-										//Id menor/igual a Nportas
-										if(tOR.getId_in(k)<=Nportas) count++;
-									}
-								}
-								//Se uma das duas condições do for forem atendidas para todos os casos
-								if(count==tOR.getNumInputs())
-                                {}//continua a leitura
-								else //interrompe leitura e msg de erro
-								{
-									cerr << "Id de entrada da porta maior que o número de portas" << endl;
-                                    limpar();
-									return;
-								}
-								count=0; //zera contador para próxima leitura
-							}
-							else
-							{
-								cerr << "Erro na leitura de uma porta OR!\n";
-                                limpar();
-								return;
-							}
-							break;
-							default:
-							//Segundo caractere da linha nao era nenhuma das opçoes validas
-							cerr << "Nome da porta inválidoOR!\n";
-                            limpar();
-							return;
-						}
-					case 'X':
-                        arquivo >> p;
-						switch(p)
-						{
-							case 'O':
-							if(tXOR.ler(arquivo))
-								{
-								portas[i]=(&tXOR)->clone();
-								//for que percorre todas as origens de entrada da porta lida
-								for (unsigned k=0; k<tXOR.getNumInputs(); k++)
-								{
-									if(tXOR.getId_in(k)<0)//Se entrada for entrada do circuito
-									{
-										//Módulo do id tem que ser menos/igual a Nout
-										if(-tXOR.getId_in(k)<=Nout) count++;
-									}
-									else //Se entrada for saída de uma porta
-									{
-										//Id menor/igual a Nportas
-										if(tXOR.getId_in(k)<=Nportas) count++;
-									}
-								}
-								//Se uma das duas condições do for forem atendidas para todos os casos
-								if(count==tXOR.getNumInputs())
-                                {}//continua a leitura
-								else //interrompe leitura e msg de erro
-								{
-									cerr << "Id de entrada da porta maior que o número de portas" << endl;
-                                    limpar();
-									return;
-								}
-								count=0; //zera contador para próxima leitura
-							}
-							else
-							{
-								cerr << "Erro na leitura de uma porta XOR!\n";
-                                limpar();
-								return;
-							}
-							break;
-							default:
-							//Segundo caractere da linha nao era nenhuma das opçoes validas
-							cerr << "Nome da porta inválidoXOR!\n";
-                            limpar();
-							return;
-						}
-					default:
-					// Primeiro caractere da linha nao era nenhuma das opçoes validas
-					cerr << "Nome da porta inválidoNo inci!\n";
-					/*
-					cerr << "Arquivo " << arquivo << " parcialmente invalido para leitura\n";
-					*/
+                    if(tNOT.ler(arquivo))
+                    {
+                        portas[i]=(&tNOT)->clone();
+                        if(verificarErros(tNOT))
+                        {}
+                        else return;
+                    }
+                    else
+                    {
+                        cerr << "Erro na leitura de uma porta NOT!\n";
+                        limpar();
+                        return;
+                    }
+                }
+                if(prov=="NA")
+                {
+                    if(tNAND.ler(arquivo))
+                    {
+                        portas[i]=(&tNAND)->clone();
+                        if(verificarErros(tNAND))
+                        {}
+                        else return;
+                    }
+                    else
+                    {
+                        cerr << "Erro na leitura de uma porta NAND!\n";
+                        limpar();
+                        return;
+                    }
+                }
+                if(prov=="NO")
+                {
+                    if(tNOR.ler(arquivo))
+                    {
+                        portas[i]=(&tNOR)->clone();
+                        if(verificarErros(tNOR))
+                        {}
+                        else return;
+                    }
+                    else
+                    {
+                        cerr << "Erro na leitura de uma porta NOR!\n";
+                        limpar();
+                        return;
+                    }
+                }
+                if(prov=="NX")
+                {
+                    if(tNXOR.ler(arquivo))
+                    {
+                        portas[i]=(&tNXOR)->clone();
+                        if(verificarErros(tNXOR))
+                        {}
+                        else return;
+                    }
+                    else
+                    {
+                        cerr << "Erro na leitura de uma porta NXOR!\n";
+                        limpar();
+                        return;
+                    }
+                }
+                if(prov=="AN")
+                {
+                    if(tAND.ler(arquivo))
+                    {
+                        portas[i]=(&tAND)->clone();
+                        if(verificarErros(tAND))
+                        {}
+                        else return;
+                    }
+                    else
+                    {
+                        cerr << "Erro na leitura de uma porta AND!\n";
+                        limpar();
+                        return;
+                    }
+                }
+                if(prov=="OR")
+                {
+                    if(tOR.ler(arquivo))
+                    {
+                        portas[i]=(&tOR)->clone();
+                        if(verificarErros(tOR))
+                        {}
+                        else return;
+                    }
+                    else
+                    {
+                        cerr << "Erro na leitura de uma porta OR!\n";
+                        limpar();
+                        return;
+                    }
+                }
+                if(prov=="XO")
+                {
+                    if(tXOR.ler(arquivo))
+                    {
+                        portas[i]=(&tXOR)->clone();
+                        if(verificarErros(tXOR))
+                        {}
+                        else return;
+                    }
+                    else
+                    {
+                        cerr << "Erro na leitura de uma porta XOR!\n";
+                        limpar();
+                        return;
+                    }
+                }
+                if((prov!="NX")&&(prov!="NO")&&(prov!="NA")&&(prov!="NT")&&(prov!="XO")&&(prov!="OR")&&(prov!="AN"))
+                {
+					// Caracteres não eram nenhuma das opçoes validas
+					cerr << "Nome da porta inválido!\n";
                     limpar();
 					return;
 				}
