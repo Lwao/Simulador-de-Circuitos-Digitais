@@ -981,12 +981,13 @@ void Circuito::digitarEntradas()
     for (unsigned i=0; i<Nin; i++)
     {
         do {
-            cout << "Valor para a entrada n " << i+1 << ": " << endl;
-            cout << "-1 - INDEFINIDO\n";
-            cout << "0 - FALSO\n";
-            cout << "1 - TRUE\n";
+            cout << "Valor para a entrada número " << i+1 << ": " << endl;
+            cout << "-1 - INDEFINIDO;\n";
+            cout << "0 - FALSO;\n";
+            cout << "1 - TRUE;\n";
+            cout << "Valor: "; 
             cin >> temp;
-        } while(temp<-1 || temp>1);
+        } while((temp<-1) || (temp>1));
         switch (temp)
         {
             case -1:
@@ -1006,7 +1007,7 @@ void Circuito::digitarEntradas()
 
 void Circuito::imprimirEntradas() const
 {
-    //Imprime os valores lógicos das entradas
+        //Imprime os valores lógicos das entradas
     //imprime as entradas do vetor de inputs
     cout << "ENTRADAS: ";
     for (unsigned i=0; i<Nin; i++)
@@ -1018,10 +1019,6 @@ void Circuito::imprimirEntradas() const
             else cout << "? ";
         }
     }
-    /*
-    cout << "Valores das entradas do circuito: " << endl;
-    for (unsigned i=0; i<Nin; i++) cout << "Entrada " << i+1 << " : " << inputs[i] << endl;
-    */
 }
 void Circuito::imprimirSaidas() const
 {
@@ -1037,20 +1034,21 @@ void Circuito::imprimirSaidas() const
     //cada int do id_out vai ser projetado para procurar a saída da porta indicada
     //imprimindo-a
     cout << "SAIDAS: ";
-    for (unsigned i=0; i<Nout; i++) cout << (*portas[id_out[i]]).getSaida() << " ";
+    for (unsigned i=0; i<Nout; i++) 
+    {
+        if((*portas[id_out[i]-1]).getSaida()==TRUE_3S) cout << "T ";
+        else
+        {
+            if((*portas[id_out[i]-1]).getSaida()==FALSE_3S) cout << "F ";
+            else cout << "? ";
+        } 
+    }
     cout << endl; //Enter para a próxima leitura
-
-
-    /*
-    cout << "Origem do sinal das saídas do circuito: " << endl;
-    for (unsigned i=0; i<Nout; i++) cout << "Saída " << i+1 << " : " << id_out[i] << endl;
-    */
 }
 void Circuito::simular()
 {
     bool tudo_def, alguma_def;
     bool_3S in_portas[4];
-
     for (unsigned i=0; i<Nportas; i++) (*portas[i]).setSaida(UNDEF_3S);
 
     do
@@ -1065,8 +1063,13 @@ void Circuito::simular()
                 //Nesse FOR, cada coordenada de in_portas[]
                 //Recebe valor lógico da saída das portas de id_in[0] até id_in[Nin-1]
                 //Que servem de entradas para *portas[i]
-                for (unsigned j=0; j<(*portas[i]).getNumInputs(); j++) in_portas[j]=(*portas[(*portas[i]).getId_in(j)]).getSaida();
-                //in_portas = /*entradas booleanas da porta i;*/ //Vetor de valores lógicos das entradas da porta
+                for (unsigned j=0; j<(*portas[i]).getNumInputs(); j++)
+                {
+                    if(portas[i]->getId_in(j) < 0) {in_portas[j] = inputs[(-(portas[i]->getId_in(j))) - 1];}
+                    if(portas[i]->getId_in(j) > 0) {in_portas[j] = portas[(portas[i]->getId_in(j))-1]->getSaida();}
+                    //in_portas[j]=(*portas[(*portas[i]).getId_in(j)]).getSaida();
+                }
+                //in_portas = //entradas booleanas da porta i;// //Vetor de valores lógicos das entradas da porta
 
                 (*portas[i]).setSaida((*portas[i]).simular(in_portas));//Simula a porta e armazena o resultado em sua saída
                 if ((*portas[i]).getSaida() == UNDEF_3S)
@@ -1080,35 +1083,6 @@ void Circuito::simular()
             }
         }
     } while (!tudo_def && alguma_def);
-
-
-    //CÓDIGO TRANSFERIDO PARA MÉTODOS DE IMPRIMIR SAIDAS E ENTRADAS
-    /*
-    //imprime uma linha da tabela verdade
-    //obs: o método tabela vai repetir isso (3^Nin) vezes
-
-
-    //primeiro imprime as entradas do vetor de inputs
-    cout << "ENTRADAS: ";
-    for (unsigned i=0; i<Nin; i++)
-    {
-        if(inputs[i]==TRUE_3S) cout << "T ";
-        else
-        {
-            if(inputs[i]==FALSE_3S) cout << "F ";
-            else cout << "? ";
-        }
-    }
-    //depois imprime as saidas do circuito
-    //as saídas dos circuitos vão receber a saída de alguma porta
-    //a id dessa porta que vai oferecer saída para o circuito está
-    //nos Nout elementos do vetor id_out
-    //cada int do id_out vai ser projetado para procurar a saída da porta indicada
-    //imprimindo-a
-    cout << "SAIDAS: ";
-    for (unsigned i=0; i<Nout; i++) cout << *portas[id_out[i]].Porta::getSaida() << " ";
-    cout << endl; //Enter para a próxima leitura
-    */
 }
 void Circuito::gerarTabela()
 {
