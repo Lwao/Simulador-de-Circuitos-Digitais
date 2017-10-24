@@ -419,29 +419,59 @@ void Circuito::copiar(const Circuito& C)
 bool Circuito::verificarErros(const Porta& P)
 {
     unsigned count(0);
+    int ver(0);
     for (unsigned k=0; k<P.getNumInputs(); k++)
     {
-		if(P.getId_in(k)<0)//Se entrada for entrada do circuito
+        if(P.getId_in(k)<0)//Se entrada for entrada do circuito
         {
             //Módulo do id tem que ser menos/igual a Nout
             if(-(P.getId_in(k))<=Nout) count++;
         }
         else //Se entrada for saída de uma porta
-		{
-			//Id menor/igual a Nportas
-			if(P.getId_in(k)<=Nportas) count++;
-		}
-    }
+        {
+            //Id menor/igual a Nportas
+            if(P.getId_in(k)<=Nportas) count++;
+        }
+        ver++;
+
+        }
+
+
     //Se uma das duas condições do for forem atendidas para todos os casos
-	if(count==P.getNumInputs())
+    if(count==P.getNumInputs())
     {}//continua a leitura
     else //interrompe leitura e msg de erro
-	{
-		cerr << "Id de entrada da porta maior que o número de portas" << endl;
+    {
+        if(ver=1){//Libera array inputs
+    if (inputs!=NULL)
+    {
+        delete[] inputs;
+        inputs = NULL;
+    }
+    //Libera array id_out
+    if (id_out!=NULL)
+    {
+        delete[] id_out;
+        id_out = NULL;
+    }
+    //Libera array de ptrs portas
+    if (portas!=NULL){
+        for (unsigned i=0; i<1; i++) delete portas[i];
+        delete[] portas;
+        portas = NULL;
+    }
+    //Zera todos os quantificadores
+    Nin = 0;
+    Nout = 0;
+    Nportas = 0;
+    cerr << "Id de entrada da porta maior que o número de portas" << endl;
+    return false;
+}else{
+        cerr << "Id de entrada da porta maior que o número de portas" << endl;
         limpar();
         return false;
     }
-}
+}}
 void Circuito::digitar()
 {
     //Cria as variáveis temporárias
