@@ -726,7 +726,7 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
         arquivo >> prov;
         if (prov != "CIRCUITO:")
         {
-            cerr << "Arquivo com cabeçalho principal inválido\n";
+            cerr << "Arquivo com cabeçalho principal invalido\n";
         }
         else //FAlta Prever erros para a falta de algum dos elementos
         {
@@ -758,7 +758,7 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
         arquivo >> prov;
         if (prov != "PORTAS:") //Ler o segundo cabeçalho
         {
-            cerr << "Arquivo com cabeçalho de portas inválido!" << endl;
+            cerr << "Arquivo com cabeçalho de portas invalido!" << endl;
         }
         else
         {
@@ -772,7 +772,7 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
 				arquivo >> temp; //Recebe o número antes do parênteses ")"
 				if(temp!=i+1) //Se
 				{
-					cerr << "Numeração da porta fora de ordem!" << endl;
+					cerr << "Numeracao da porta fora de ordem!" << endl;
                     limpar();
 					return;
 				}
@@ -894,7 +894,7 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
                 if((prov!="NX")&&(prov!="NO")&&(prov!="NA")&&(prov!="NT")&&(prov!="XO")&&(prov!="OR")&&(prov!="AN"))
                 {
 					// Caracteres não eram nenhuma das opçoes validas
-					cerr << "Nome da porta inválido!\n";
+					cerr << "Nome da porta invalido!\n";
                     limpar();
 					return;
 				}
@@ -904,7 +904,7 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
         arquivo >> prov;
         if (prov != "SAIDAS:") //Ler o terceiro cabeçalho
         {
-            cerr << "Arquivo com cabeçalho de saídas inválido\n";
+            cerr << "Arquivo com cabeçalho de saidas invalido\n";
         }
         else
         {
@@ -977,7 +977,7 @@ void Circuito::digitarEntradas()
 {
     int temp;
     //Digitar os valores lógicos das entradas em caso de simulação
-    cout << "Digite os valores lógicos das entradas: " << endl;
+    cout << "Digite os valores logicos das entradas: " << endl;
     for (unsigned i=0; i<Nin; i++)
     {
         do {
