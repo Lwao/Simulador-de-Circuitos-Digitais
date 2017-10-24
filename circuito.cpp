@@ -739,7 +739,7 @@ void Circuito::ler(const char*nome) //Adicionei esse nome, pois antes estava sem
             }
             arquivo.ignore(numeric_limits<streamsize>::max(), ' ');
             arquivo >> Nout;//Nout>0;
-            if(Nin<=0){
+            if(Nout<=0){
                 cerr << "Numero invalido de saidas!" << endl;
                 limpar();
                 return;
