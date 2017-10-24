@@ -3,3 +3,4 @@ O objetivo é desenvolver em C++ um programa simulador de circuitos lógicos, co
 
 
 
+Traquinagem:: diep.io/#D2D45C47BB3046E5A770
