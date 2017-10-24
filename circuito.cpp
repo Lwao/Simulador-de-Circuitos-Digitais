@@ -981,7 +981,7 @@ void Circuito::digitarEntradas()
     for (unsigned i=0; i<Nin; i++)
     {
         do {
-            cout << "Valor para a entrada n° " << i+1 << ": " << endl;
+            cout << "Valor para a entrada n " << i+1 << ": " << endl;
             cout << "-1 - INDEFINIDO\n";
             cout << "0 - FALSO\n";
             cout << "1 - TRUE\n";
