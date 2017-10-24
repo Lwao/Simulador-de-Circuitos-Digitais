@@ -148,7 +148,7 @@ bool Porta::ler(istream& I)
     {
         I.ignore(numeric_limits<streamsize>::max(), ' ');
         I >> id_in[i];
-        if (id_in!=0) count++; //conta se todos os id_ins são !=0
+        if (id_in[i]!=0) count++; //conta se todos os id_ins são !=0
     }
     //Se Nin for maior que nulo e todas as ids de entrada forem !=0
     if(count==Nin) return true;
