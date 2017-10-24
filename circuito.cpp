@@ -498,42 +498,197 @@ void Circuito::digitar()
         //Ler por meio de teclado o tipo de porta
         switch (op)
         {
+
+        bool verificar, pronto;
+        verificar = false;
+        pronto = true;
+
             case 0:
 
+            /*
+                Temos que
+                Repete enquanto:
+                (Id>=Nin || Id<=0)&&(Id>=Nportas || Id<=0)
 
+                */
+
+            do{
                 tNOT.digitar();
 
-               if (((tNOT.getId_in(0)*(-1)<=(Nin))&&(tNOT.getId_in(0)*(-1)>0))||((tNOT.getId_in(0)<=Nportas)&&(tNOT.getId_in(0)>0))){
-                     cout<<"!!!!!Numero do ID:" << tNOT.getId_in(0)<<endl;
-                portas[i] = (&tNOT)->clone();}
-             else{
-               cerr<<"A entrada digitada nao eh valida"<<endl;
-              return;
-               }
-                    break;
+                portas[i] = (&tNOT)->clone();
+
+                 }while(  (((tNOT.getId_in(0)*(-1))>(Nin))  ||  ((tNOT.getId_in(0)*(-1)<=0)))  &&  (((tNOT.getId_in(0)>Nportas)||(tNOT.getId_in(0)<=0))));
+
+
+
+            break;
+
+
             case 1:
+
+                do{
                 tAND.digitar();
-                portas[i] = (&tAND)->clone();
-                break;
+
+for(int i=0;i<tAND.getNumInputs();i++){
+        bool temp, prov;
+        temp=false;
+        prov=true;
+
+       temp =(((tAND.getId_in(i))*(-1)>(Nin))  ||  ((tAND.getId_in(i)*(-1)<=0)))  &&  (((tAND.getId_in(i)>Nportas)||(tAND.getId_in(i)<=0)));
+       temp= !temp;
+       verificar = (temp && prov);
+
+}
+            if(verificar){
+            portas[i] = (&tAND)->clone();
+            pronto = false;
+
+}
+            else{
+            pronto=true;
+            cout<<"Dados incorretos, por favor, digite novamente:"<< endl;
+}
+
+}while(pronto);
+
+
+
+
+
+
+
+            break;
             case 2:
+
+                do{
                 tNAND.digitar();
-                portas[i] = (&tNAND)->clone();
+
+for(int i=0;i<tNAND.getNumInputs();i++){
+        bool temp, prov;
+        temp=false;
+        prov=true;
+
+       temp =(((tNAND.getId_in(i))*(-1)>(Nin))  ||  ((tNAND.getId_in(i)*(-1)<=0)))  &&  (((tNAND.getId_in(i)>Nportas)||(tNAND.getId_in(i)<=0)));
+       temp= !temp;
+       verificar = (temp && prov);
+
+}
+            if(verificar){
+            portas[i] = (&tNAND)->clone();
+            pronto = false;
+
+}
+            else{
+            pronto=true;
+            cout<<"Dados incorretos, por favor, digite novamente:"<< endl;
+}
+
+}while(pronto);
+
                 break;
             case 3:
-                tOR.digitar();
-                portas[i] = (&tOR)->clone();
+            do{
+            tOR.digitar();
+
+for(int i=0;i<tOR.getNumInputs();i++){
+    bool temp, prov;
+    temp=false;
+    prov=true;
+
+   temp =(((tOR.getId_in(i))*(-1)>(Nin))  ||  ((tOR.getId_in(i)*(-1)<=0)))  &&  (((tOR.getId_in(i)>Nportas)||(tOR.getId_in(i)<=0)));
+   temp= !temp;
+   verificar = (temp && prov);
+
+}
+        if(verificar){
+        portas[i] = (&tOR)->clone();
+        pronto = false;
+
+}
+        else{
+        pronto=true;
+        cout<<"Dados incorretos, por favor, digite novamente:"<< endl;
+}
+
+}while(pronto);
                 break;
             case 4:
-                tNOR.digitar();
-                portas[i] = (&tNOR)->clone();
+            do{
+            tNOR.digitar();
+
+for(int i=0;i<tNOR.getNumInputs();i++){
+    bool temp, prov;
+    temp=false;
+    prov=true;
+
+   temp =(((tNOR.getId_in(i))*(-1)>(Nin))  ||  ((tNOR.getId_in(i)*(-1)<=0)))  &&  (((tNOR.getId_in(i)>Nportas)||(tNOR.getId_in(i)<=0)));
+   temp= !temp;
+   verificar = (temp && prov);
+
+}
+        if(verificar){
+        portas[i] = (&tNOR)->clone();
+        pronto = false;
+
+}
+        else{
+        pronto=true;
+        cout<<"Dados incorretos, por favor, digite novamente:"<< endl;
+}
+
+}while(pronto);
                 break;
             case 5:
-                tXOR.digitar();
-                portas[i] = (&tXOR)->clone();
+            do{
+            tXOR.digitar();
+
+for(int i=0;i<tXOR.getNumInputs();i++){
+    bool temp, prov;
+    temp=false;
+    prov=true;
+
+   temp =(((tXOR.getId_in(i))*(-1)>(Nin))  ||  ((tXOR.getId_in(i)*(-1)<=0)))  &&  (((tXOR.getId_in(i)>Nportas)||(tXOR.getId_in(i)<=0)));
+   temp= !temp;
+   verificar = (temp && prov);
+
+}
+        if(verificar){
+        portas[i] = (&tXOR)->clone();
+        pronto = false;
+
+}
+        else{
+        pronto=true;
+        cout<<"Dados incorretos, por favor, digite novamente:"<< endl;
+}
+
+}while(pronto);
                 break;
             case 6:
-                tNXOR.digitar();
-                portas[i] = (&tNXOR)->clone();
+            do{
+            tXOR.digitar();
+
+for(int i=0;i<tNXOR.getNumInputs();i++){
+    bool temp, prov;
+    temp=false;
+    prov=true;
+
+   temp =(((tNXOR.getId_in(i))*(-1)>(Nin))  ||  ((tNXOR.getId_in(i)*(-1)<=0)))  &&  (((tNXOR.getId_in(i)>Nportas)||(tNXOR.getId_in(i)<=0)));
+   temp= !temp;
+   verificar = (temp && prov);
+
+}
+        if(verificar){
+        portas[i] = (&tNXOR)->clone();
+        pronto = false;
+
+}
+        else{
+        pronto=true;
+        cout<<"Dados incorretos, por favor, digite novamente:"<< endl;
+}
+
+}while(pronto);
                 break;
             default:
                 break;
@@ -543,7 +698,7 @@ void Circuito::digitar()
     //Define a origem do sinal das saídas do circuitos, se de uma porta ou entrada
     for (unsigned i=0; i<Nout; i++)
     {
-        cout << "Digite a origem do sinal logico da " << i+1 << "ª saida do circuito: ";
+        cout << "Digite a origem do sinal logico da " << i+1 << "a saida do circuito: ";
         cin >> id_out[i];
     }
 
